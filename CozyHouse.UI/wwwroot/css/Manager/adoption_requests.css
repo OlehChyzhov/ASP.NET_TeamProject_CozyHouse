@@ -10,8 +10,9 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
     max-width: 400px;
     width: 100%;
-    text-align: center;
+    text-align: left; 
     box-sizing: border-box;
+    padding: 20px;
 }
 
 h2 {
