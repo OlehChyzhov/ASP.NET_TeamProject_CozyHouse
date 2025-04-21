@@ -5,6 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - CozyHouse</title>
 
+    <link href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+
     <link rel="stylesheet" href="~/css/Shared/global.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/Shared/header_footer.css" asp-append-version="true" />
 </head>
@@ -20,6 +27,7 @@
                 <li><a asp-area="Manager" asp-controller="PetPublication" asp-action="Index">Manage Pet Publications</a></li>
                 <li><a asp-area="Manager" asp-controller="Home" asp-action="SeeRequests">Manage Requests</a></li>
                 <li><a asp-area="Manager" asp-controller="Home" asp-action="LogoutCommand">Logout</a></li>
+                <li><a>@User.Identity?.Name</a></li>
             </ul>
         </div>
     </header>
@@ -52,6 +60,8 @@
         </div>
     </footer>
 
+    @RenderSection("Scripts", required: false)
+    
     <script src="~/js/site.js" asp-append-version="true"></script>
 </body>
 </html>

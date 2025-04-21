@@ -6,11 +6,11 @@
 <link rel="stylesheet" href="~/css/Shared/PetPublications/create_edit.css" asp-append-version="true" />
 
 <form class="top-button">
-    <button asp-area="User" asp-controller="PetPublication" asp-action="Index">Back</button>
+    <button asp-area="User" asp-controller="UserPublicationsManage" asp-action="Index">Back</button>
 </form>
 
 <div class="form-container">
-    <form method="post" enctype="multipart/form-data" asp-area="User" asp-controller="PetPublication" asp-action="Edit" class="main-form">
+    <form method="post" enctype="multipart/form-data" asp-area="User" asp-controller="UserPublicationsManage" asp-action="Edit" class="main-form">
         <input asp-for="OwnerId" value="@User.GetUserId()" hidden />
         <input asp-for="Id" hidden />
         <h1>Edit Pet Publication</h1>
