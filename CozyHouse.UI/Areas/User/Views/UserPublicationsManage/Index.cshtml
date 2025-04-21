@@ -7,7 +7,7 @@
 
 <div class="header-container">
     <h1>Manage Shelter Pets</h1>
-    <a asp-area="User" asp-controller="PetPublication" asp-action="Create" class="add-publication-button">Create New Listing</a>
+    <a asp-area="User" asp-controller="UserPublicationsManage" asp-action="Create" class="add-publication-button">Create New Listing</a>
 </div>
 
 <div class="card-container">
@@ -28,8 +28,8 @@
                 <h3> Location: @publication.Location</h3>
             </div>
             <div class="pets-buttons">
-                <a asp-area="User" asp-controller="PetPublication" asp-action="Edit" asp-route-id="@publication.Id" class="listing-card-button">Edit</a>
-                <form method="post" asp-area="User" asp-controller="PetPublication" asp-action="Delete" asp-route-id="@publication.Id">
+                <a asp-area="User" asp-controller="UserPublicationsManage" asp-action="Edit" asp-route-id="@publication.Id" class="listing-card-button">Edit</a>
+                <form method="post" asp-area="User" asp-controller="UserPublicationsManage" asp-action="Delete" asp-route-id="@publication.Id">
                     <button type="submit" class="listing-card-button">Delete</button>
                 </form>
             </div>
