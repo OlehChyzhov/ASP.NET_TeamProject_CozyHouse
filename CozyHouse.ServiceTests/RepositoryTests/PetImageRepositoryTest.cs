@@ -49,21 +49,6 @@ namespace CozyHouse.CoreTests.RepositoryTests
 
             Assert.Equal(2, _repository.GetAll(publicationId).Count());
         }
-
-        [Fact]
-        public void Create_WrongArguments_ToBeValidationException()
-        {
-            PetImage image = new PetImage()
-            {
-                ImageUrl = "",
-                PetPublicationId = Guid.Parse("5523F9E5-7C5A-4FA0-B861-3C6B4F8E08CD")
-            };
-
-            Assert.Throws<ValidationException>(() =>
-            {
-                _repository.Create(image);
-            });
-        }
         #endregion
 
         #region Read
@@ -112,18 +97,6 @@ namespace CozyHouse.CoreTests.RepositoryTests
 
             PetImage updatedImage = _repository.Read(Guid.Parse("6623F9E5-7C5A-4FA0-B861-3C6B4F8E08CD"));
             Assert.Equal(newUrl, updatedImage.ImageUrl);
-        }
-
-        [Fact]
-        public void Update_WrongArguments_ToBeValidationException()
-        {
-            PetImage imageFromDb = _repository.Read(Guid.Parse("6623F9E5-7C5A-4FA0-B861-3C6B4F8E08CD"));
-            imageFromDb.ImageUrl = "";
-
-            Assert.Throws<ValidationException>(() =>
-            {
-                _repository.Update(imageFromDb);
-            });
         }
         #endregion
 

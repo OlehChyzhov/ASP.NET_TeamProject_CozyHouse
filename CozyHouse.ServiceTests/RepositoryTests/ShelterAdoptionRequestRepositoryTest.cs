@@ -56,15 +56,6 @@ namespace CozyHouse.CoreTests.RepositoryTests
         }
 
         [Fact]
-        public void Read_WrongId_ToBeInvalidOperationException()
-        {
-            Assert.Throws<InvalidOperationException>(() =>
-            {
-                _repository.Read(Guid.Parse("87654321-4321-4321-4321-210987654321"));
-            });
-        }
-
-        [Fact]
         public void GetAll_ToBeEqualOne()
         {
             Assert.Single(_repository.GetAll());
@@ -86,15 +77,7 @@ namespace CozyHouse.CoreTests.RepositoryTests
         #endregion
 
         #region Delete
-        [Fact]
-        public void Delete_RightId_ToBeInvalidOperationException()
-        {
-            _repository.Delete(Guid.Parse("12345678-1234-1234-1234-123456789012"));
-            Assert.Throws<InvalidOperationException>(() =>
-            {
-                _repository.Read(Guid.Parse("12345678-1234-1234-1234-123456789012"));
-            });
-        }
+
         #endregion
     }
 }

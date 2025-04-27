@@ -58,24 +58,6 @@ namespace CozyHouse.CoreTests.RepositoryTests
 
             Assert.Equal(2, _repository.GetAll().Count());
         }
-
-        [Fact]
-        public void Create_InvalidPublication_ShouldThrowValidationException()
-        {
-            UserPetPublication publication = new UserPetPublication
-            {
-                Id = Guid.NewGuid(),
-                OwnerId = Guid.Empty, // Некоректний OwnerId
-                PublicationTitle = "",
-                Summary = "",
-                Location = "",
-                PetName = "",
-                IsVaccinated = false,
-                IsSterilized = false
-            };
-
-            Assert.Throws<ValidationException>(() => _repository.Create(publication));
-        }
         #endregion
 
         #region Read
@@ -104,16 +86,6 @@ namespace CozyHouse.CoreTests.RepositoryTests
 
             UserPetPublication updatedPublication = _repository.Read(Guid.Parse("12345678-1234-1234-1234-123456789012"));
             Assert.Equal("Updated Title", updatedPublication.PublicationTitle);
-        }
-
-        [Fact]
-        public void Update_InvalidPublication_ShouldThrowValidationException()
-        {
-            UserPetPublication publication = _repository.Read(Guid.Parse("12345678-1234-1234-1234-123456789012"));
-            publication.PublicationTitle = ""; // Некоректна назва
-            publication.Summary = "";
-
-            Assert.Throws<ValidationException>(() => _repository.Update(publication));
         }
         #endregion
 

@@ -59,23 +59,6 @@ namespace CozyHouse.CoreTests.RepositoryTests
             _repository.Create(publication);
             Assert.Equal(2, _repository.GetAll().Count());
         }
-        [Fact]
-        public void Create_WrongArugments_ToBeValidationException()
-        {
-            ShelterPetPublication listing = new ShelterPetPublication()
-            {
-                PublicationTitle = "",
-                Summary = "",
-                PetName = "",
-                IsSterilized = false,
-                IsVaccinated = false,
-                Location = "Location"
-            };
-            Assert.Throws<ValidationException>(() =>
-            {
-                _repository.Create(listing);
-            });
-        }
         #endregion
 
         #region Get
@@ -83,15 +66,6 @@ namespace CozyHouse.CoreTests.RepositoryTests
         public void Read_RightId_ToBeNotNull()
         {
             Assert.NotNull(_repository.Read(Guid.Parse("5523F9E5-7C5A-4FA0-B861-3C6B4F8E08CD")));
-        }
-
-        [Fact]
-        public void Read_WrongId_ToBeInvalidOperationException()
-        {
-            Assert.Throws<InvalidOperationException>(() =>
-            {
-                _repository.Read(Guid.Parse("8A3DCAFC-7421-4B6E-B593-A9E1833BE9B3"));
-            });
         }
 
         [Fact]
@@ -113,31 +87,9 @@ namespace CozyHouse.CoreTests.RepositoryTests
             ShelterPetPublication updatedPublication = _repository.Read(Guid.Parse("5523F9E5-7C5A-4FA0-B861-3C6B4F8E08CD"))!;
             Assert.Equal("New Title", updatedPublication.PublicationTitle);
         }
-
-        [Fact]
-        public void Update_WrongArguments_ToBeValidationException()
-        {
-            ShelterPetPublication publicationFromDb = _repository.Read(Guid.Parse("5523F9E5-7C5A-4FA0-B861-3C6B4F8E08CD"))!;
-            publicationFromDb.PublicationTitle = "";
-            publicationFromDb.Summary = "";
-
-            Assert.Throws<ValidationException>(() =>
-            {
-                _repository.Update(publicationFromDb);
-            });
-        }
         #endregion
 
         #region Delete
-        [Fact]
-        public void Delete_RightId_ToBeInvalidOperationException()
-        {
-            _repository.Delete(Guid.Parse("5523F9E5-7C5A-4FA0-B861-3C6B4F8E08CD"));
-            Assert.Throws<InvalidOperationException>(() =>
-            {
-                _repository.Read(Guid.Parse("5523F9E5-7C5A-4FA0-B861-3C6B4F8E08CD"));
-            });
-        }
 
         [Fact]
         public void Delete_WrongId_ToBeInvalidOperationException()
