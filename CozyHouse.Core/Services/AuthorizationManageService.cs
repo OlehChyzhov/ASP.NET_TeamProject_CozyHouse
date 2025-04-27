@@ -39,12 +39,17 @@ namespace CozyHouse.Core.Services
 
         public async Task<IdentityResult> RegisterWithRoleAsync(ApplicationUser user, string password, string role)
         {
-            if (role != "User" || role != "Manager") return IdentityResult.Failed(new IdentityError() { Description = $"Wrong role {role}" });
+            if (role != "User" && role != "Manager") return IdentityResult.Failed(new IdentityError() { Description = $"Wrong role {role}" });
             ApplicationUser? userFromDb = await _userManager.FindByIdAsync(user.Id.ToString());
             if (userFromDb != null) return IdentityResult.Failed(new IdentityError() { Description = "Account already exists" });
 
-            await _userManager.CreateAsync(user, password);
+            user.SecurityStamp = Guid.NewGuid().ToString();
+            user.Id = Guid.NewGuid();
+
+            IdentityResult registrationResult = await _userManager.CreateAsync(user, password);
+            if (registrationResult.Succeeded == false) return IdentityResult.Failed(registrationResult.Errors.ToArray());
             await _userManager.AddToRoleAsync(user, role);
+            
             return IdentityResult.Success;
         }
         
