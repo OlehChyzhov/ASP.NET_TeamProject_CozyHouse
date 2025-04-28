@@ -71,14 +71,6 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-AppDomain.CurrentDomain.SetData("DataDirectory",
-    Path.Combine(Directory.GetCurrentDirectory(), "App_Data"));
-
-if (!Directory.Exists(Path.Combine(Directory.GetCurrentDirectory(), "App_Data")))
-{
-    Directory.CreateDirectory(Path.Combine(Directory.GetCurrentDirectory(), "App_Data"));
-}
-
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
