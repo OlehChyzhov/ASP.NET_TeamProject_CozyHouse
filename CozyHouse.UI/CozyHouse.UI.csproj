@@ -47,5 +47,11 @@
     <Folder Include="wwwroot\css\User\" />
     <Folder Include="wwwroot\PetImages\" />
   </ItemGroup>
+  
+<ItemGroup>
+  <Content Update="database.db">
+    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+  </Content>
+</ItemGroup>
 
 </Project>
