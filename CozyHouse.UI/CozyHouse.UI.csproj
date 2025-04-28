@@ -14,10 +14,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Remove="wwwroot\database.db" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Remove="Program.cs~RF43bb65b.TMP" />
   </ItemGroup>
 
@@ -50,10 +46,6 @@
     <Folder Include="wwwroot\css\Guest\" />
     <Folder Include="wwwroot\css\User\" />
     <Folder Include="wwwroot\PetImages\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="wwwroot\database.db" />
   </ItemGroup>
 
 </Project>
