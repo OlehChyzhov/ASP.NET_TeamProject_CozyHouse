@@ -58,17 +58,6 @@ jobs:
 
       - name: Test with the dotnet CLI
         run: dotnet test
-
-      - name: Ensure SQLite database file exists
-        run: |
-          if [ -f "CozyHouse.UI/database.db" ]; then
-            echo "Database file found, ensuring it's copied to publish output"
-            # Створюємо порожній файл, якщо його немає
-          else
-            echo "Creating empty database file"
-            touch "CozyHouse.UI/database.db"
-          fi
-          chmod 666 "CozyHouse.UI/database.db"
           
       - name: dotnet publish
         run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
