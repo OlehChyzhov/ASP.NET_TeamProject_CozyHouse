@@ -10,49 +10,29 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-builder.Logging.AddConsole();
-if (!builder.Environment.IsDevelopment())
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
-    builder.Logging.AddAzureWebAppDiagnostics();
-}
-
-if (builder.Environment.IsProduction())
-{
-    var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-    builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    {
-        options.UseSqlServer(connectionString, sqlOptions =>
-        {
-            sqlOptions.EnableRetryOnFailure(
-                maxRetryCount: 5,
-                maxRetryDelay: TimeSpan.FromSeconds(30),
-                errorNumbersToAdd: null);
-        });
-    });
-}
-else
-{
-    builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    {
-        options.UseSqlite(builder.Configuration.GetConnectionString("SqliteConnectionString"));
-    });
-}
+    options.UseSqlite(builder.Configuration.GetConnectionString("SqliteConnectionString"));
+});
 
 builder.Services.AddScoped<IShelterPetPublicationRepository, ShelterPetPublicationRepository>();
 builder.Services.AddScoped<IShelterPetPublicationService, ShelterPetPublicationService>();
+
 builder.Services.AddScoped<IUserPetPublicationRepository, UserPetPublicationRepository>();
 builder.Services.AddScoped<IUserPetPublicationService, UserPetPublicationService>();
+
 builder.Services.AddScoped<IShelterAdoptionRequestRepository, ShelterAdoptionRequestRepository>();
 builder.Services.AddScoped<IShelterAdoptionRequestService, ShelterAdoptionRequestService>();
+
 builder.Services.AddScoped<IUserAdoptionRequestRepository, UserAdoptionRequestRepository>();
 builder.Services.AddScoped<IUserAdoptionRequestService, UserAdoptionRequestService>();
+
 builder.Services.AddScoped<IPetImageRepository, PetImageRepository>();
 builder.Services.AddScoped<IAuthorizationManageService, AuthorizationManageService>();
 builder.Services.AddScoped<IPublicationImageHelper, PublicationImageHelper>();
@@ -63,7 +43,7 @@ builder.Services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
     options.Password.RequireDigit = false;
     options.Password.RequireNonAlphanumeric = false;
     options.Password.RequireUppercase = false;
-})
+})  
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders()
     .AddUserStore<UserStore<ApplicationUser, ApplicationRole, ApplicationDbContext, Guid>>()
@@ -87,51 +67,21 @@ var app = builder.Build();
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts....
     app.UseHsts();
-}
-
-using (var scope = app.Services.CreateScope())
-{
-    var services = scope.ServiceProvider;
-    var logger = services.GetRequiredService<ILogger<Program>>();
-
-    try
-    {
-        // Застосування міграцій
-        var dbContext = services.GetRequiredService<ApplicationDbContext>();
-        logger.LogInformation("Checking database connection...");
-        if (await dbContext.Database.CanConnectAsync())
-        {
-            logger.LogInformation("Database connection successful");
-
-            logger.LogInformation("Applying migrations...");
-            await dbContext.Database.MigrateAsync();
-            logger.LogInformation("Migrations applied successfully!");
-
-            // Ініціалізація ролей та користувачів
-            logger.LogInformation("Seeding roles...");
-            await AuthorizationHelper.SeedRolesAsync(services);
-            logger.LogInformation("Roles seeded successfully!");
-
-            logger.LogInformation("Seeding default manager...");
-            await AuthorizationHelper.SeedDefaultManagerAsync(services);
-            logger.LogInformation("Default manager seeded successfully!");
-        }
-        else
-        {
-            logger.LogError("Cannot connect to the database. Application will start without database initialization.");
-        }
-    }
-    catch (Exception ex)
-    {
-        logger.LogError(ex, "An error occurred during database initialization. Application will continue without database initialization.");
-    }
 }
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
 app.UseRouting();
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    await AuthorizationHelper.SeedRolesAsync(services);
+    await AuthorizationHelper.SeedDefaultManagerAsync(services);
+}
 
 app.UseAuthentication(); // Перевірка, чи користувач залогінений
 app.UseAuthorization(); // Перевірка, чи користувач може доступитись до сторінок
