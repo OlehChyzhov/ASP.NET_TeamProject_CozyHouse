@@ -1,0 +1,12 @@
+﻿@{
+    string? message = TempData["NotificationMessage"]?.ToString();
+    string? value = TempData["NotificationValue"]?.ToString();
+}
+
+
+<input value="@(message != null ? message : "")" id="Message" hidden />
+
+@*success/error/warning/info/question*@
+<input value="@(value != null ? value : "")" id="Value" hidden />
+
+<script src="~/js/Shared/notifications.js"></script>

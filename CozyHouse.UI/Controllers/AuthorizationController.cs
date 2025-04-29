@@ -1,7 +1,7 @@
 ﻿using CozyHouse.Core.Domain.IdentityEntities;
 using CozyHouse.Core.Helpers;
 using CozyHouse.Core.ServiceContracts;
-using CozyHouse.UI.DTO;
+using CozyHouse.UI.Models.DTO;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;

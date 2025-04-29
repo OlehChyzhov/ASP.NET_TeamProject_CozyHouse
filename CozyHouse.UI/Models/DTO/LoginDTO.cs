@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace CozyHouse.UI.DTO
+namespace CozyHouse.UI.Models.DTO
 {
     public class LoginDTO
     {

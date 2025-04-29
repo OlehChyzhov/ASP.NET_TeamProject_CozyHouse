@@ -7,7 +7,6 @@
 
 .publication {
     width: 300px;
-    height: 550px;
     background: #fff;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -17,6 +16,8 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    max-height: 550px;
+    overflow: hidden;
 }
 
 .middle-part {
@@ -24,6 +25,7 @@
     flex-direction: column;
     justify-content: space-between;
     flex-grow: 1;
+    overflow: auto;
 }
 
     .middle-part img {

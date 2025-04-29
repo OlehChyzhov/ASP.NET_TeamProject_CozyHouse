@@ -1,7 +1,8 @@
 ﻿using CozyHouse.Core.Domain.Entities;
 using CozyHouse.Core.Domain.IdentityEntities;
 using CozyHouse.Core.ServiceContracts;
-using CozyHouse.UI.DTO;
+using CozyHouse.UI.Models;
+using CozyHouse.UI.Models.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -39,12 +40,15 @@ namespace CozyHouse.UI.Areas.Manager.Controllers
 
             if (result == true && request != null) _userStatsService.IncreasePetsAdoptedCounterAsync(request.AdopterId, 1);
 
+            if (result == true) Notificator.CreateNotification(this, "Request Approved! :D", "success");
             return RedirectToAction("SeeRequests");
         }
         [HttpPost]
         public IActionResult Reject(Guid id)
         {
-            _requestService.Reject(id);
+            bool result = _requestService.Reject(id);
+
+            if (result == true) Notificator.CreateNotification(this, "Request Rejected :(", "error");
             return RedirectToAction("SeeRequests");
         }
         public async Task<IActionResult> LogoutCommand()

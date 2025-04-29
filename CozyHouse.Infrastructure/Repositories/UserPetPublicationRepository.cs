@@ -21,7 +21,7 @@ namespace CozyHouse.Infrastructure.Repositories
 
         public UserPetPublication Read(Guid publicationId)
         {
-            return _db.UserPetPublications.Include(pub => pub.Images).First(publication => publication.Id == publicationId);
+            return _db.UserPetPublications.Include(pub => pub.Images).Include(o => o.Owner).First(publication => publication.Id == publicationId);
         }
 
         public void Update(UserPetPublication publication)

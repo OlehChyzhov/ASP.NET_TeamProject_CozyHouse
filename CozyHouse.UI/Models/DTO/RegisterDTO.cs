@@ -1,13 +1,13 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace CozyHouse.UI.DTO
+namespace CozyHouse.UI.Models.DTO
 {
     public class RegisterDTO
     {
         [Required]
         public string Login { get; set; }
-        
+
         [Required]
         [EmailAddress(ErrorMessage = "Email adress is incorrect")]
         public string Email { get; set; }

@@ -2,6 +2,7 @@
 using CozyHouse.Core.Helpers;
 using CozyHouse.Core.RepositoryInterfaces;
 using CozyHouse.Core.ServiceContracts;
+using CozyHouse.UI.Models.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -24,6 +25,8 @@ namespace CozyHouse.UI.Areas.User.Controllers
         public async Task<IActionResult> AdoptFromShelterAsync(Guid publicationId)
         {
             await _shelterRequestService.CreateAsync(publicationId, User.GetUserId());
+
+            Notificator.CreateNotification(this, "Request Submitted! Wait for manager's call", "success");
             return RedirectToAction("Index", "Home", new { area = "User" });
         }
         [HttpPost]
@@ -31,6 +34,8 @@ namespace CozyHouse.UI.Areas.User.Controllers
         {
             UserPetPublication publication = _userPublicationRepository.Read(publicationId)!;
             await _userRequestService.CreateAsync(publication.Id, User.GetUserId(), publication.OwnerId);
+
+            Notificator.CreateNotification(this, $"Request Submitted! {publication.Owner.PersonName} will contact you soon", "success");
             return RedirectToAction("Index", "Home", new { area = "User" });
         }
     }

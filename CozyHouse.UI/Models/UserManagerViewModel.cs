@@ -1,6 +1,6 @@
 ﻿using CozyHouse.Core.Domain.IdentityEntities;
 
-namespace CozyHouse.UI.DTO
+namespace CozyHouse.UI.Models
 {
     public class UserManagerViewModel
     {
