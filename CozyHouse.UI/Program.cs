@@ -19,6 +19,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
     options.UseNpgsql(builder.Configuration.GetConnectionString("PostgreSQLConnectionString"));
+    // options.UseSqlite(builder.Configuration.GetConnectionString("SqliteConnectionString"));
 });
 
 builder.Services.AddScoped<IShelterPetPublicationRepository, ShelterPetPublicationRepository>();
