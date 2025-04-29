@@ -11,40 +11,64 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Додаємо логування для діагностики
+builder.Logging.AddConsole();
+
+// Виводимо інформацію про налаштування підключення перед використанням
+var connString = builder.Configuration.GetConnectionString("DefaultConnection") ??
+    builder.Configuration.GetConnectionString("SqliteConnectionString");
+
+Console.WriteLine($"Connection string provider: {connString?.Split(';').FirstOrDefault() ?? "Not found"}");
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-builder.Logging.AddConsole();
-if (!builder.Environment.IsDevelopment())
-{
-    builder.Logging.AddAzureWebAppDiagnostics();
-}
-
+// Конфігурація бази даних залежно від середовища
 if (builder.Environment.IsProduction())
 {
-    var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-    builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    // На Azure використовуємо SQL Server
+    var azureConnString = builder.Configuration.GetConnectionString("DefaultConnection");
+    if (!string.IsNullOrEmpty(azureConnString))
     {
-        options.UseSqlServer(connectionString, sqlOptions =>
+        Console.WriteLine("Configuring SQL Server for Azure production environment");
+        builder.Services.AddDbContext<ApplicationDbContext>(options =>
         {
-            sqlOptions.EnableRetryOnFailure(
-                maxRetryCount: 5,
-                maxRetryDelay: TimeSpan.FromSeconds(30),
-                errorNumbersToAdd: null);
+            options.UseSqlServer(azureConnString, sqlOptions =>
+            {
+                sqlOptions.EnableRetryOnFailure(
+                    maxRetryCount: 5,
+                    maxRetryDelay: TimeSpan.FromSeconds(30),
+                    errorNumbersToAdd: null);
+            });
         });
-    });
+    }
+    else
+    {
+        // Якщо немає Azure connection string, використовуємо SQLite як запасний варіант
+        Console.WriteLine("WARNING: Azure connection string not found, using SQLite as fallback");
+        builder.Services.AddDbContext<ApplicationDbContext>(options =>
+        {
+            options.UseSqlite(builder.Configuration.GetConnectionString("SqliteConnectionString"));
+        });
+    }
 }
 else
 {
+    // В середовищі розробки використовуємо SQLite
+    Console.WriteLine("Configuring SQLite for development environment");
     builder.Services.AddDbContext<ApplicationDbContext>(options =>
     {
         options.UseSqlite(builder.Configuration.GetConnectionString("SqliteConnectionString"));
     });
 }
 
+// Реєстрація сервісів
 builder.Services.AddScoped<IShelterPetPublicationRepository, ShelterPetPublicationRepository>();
 builder.Services.AddScoped<IShelterPetPublicationService, ShelterPetPublicationService>();
 builder.Services.AddScoped<IUserPetPublicationRepository, UserPetPublicationRepository>();
@@ -91,41 +115,84 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+// Додаємо базовий health check endpoint, який не вимагає автентифікації
+app.MapGet("/health", () => "Application is running!").AllowAnonymous();
+
+// Перед запуском програми ініціалізуємо базу даних, але з обробкою помилок
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
     var logger = services.GetRequiredService<ILogger<Program>>();
 
-    try
+    // В Azure пропускаємо ініціалізацію бази даних на початку, щоб програма гарантовано запустилася
+    if (app.Environment.IsProduction())
     {
-        // Застосування міграцій
-        var dbContext = services.GetRequiredService<ApplicationDbContext>();
-        logger.LogInformation("Checking database connection...");
-        if (await dbContext.Database.CanConnectAsync())
+        logger.LogInformation("Running in Production mode. Using minimal database initialization to ensure application can start.");
+
+        try
         {
-            logger.LogInformation("Database connection successful");
+            // Тільки перевіряємо можливість підключення до бази даних без виконання міграцій
+            var dbContext = services.GetRequiredService<ApplicationDbContext>();
+            logger.LogInformation("Testing database connection...");
+            var canConnect = await dbContext.Database.CanConnectAsync();
+            logger.LogInformation($"Database connection test: {(canConnect ? "SUCCESS" : "FAILED")}");
 
-            logger.LogInformation("Applying migrations...");
-            await dbContext.Database.MigrateAsync();
-            logger.LogInformation("Migrations applied successfully!");
+            if (canConnect)
+            {
+                // Якщо підключення успішне, пробуємо отримати базову інформацію без міграцій
+                logger.LogInformation("Database connected. Checking if roles exist...");
+                var roleManager = services.GetRequiredService<RoleManager<ApplicationRole>>();
 
-            // Ініціалізація ролей та користувачів
-            logger.LogInformation("Seeding roles...");
-            await AuthorizationHelper.SeedRolesAsync(services);
-            logger.LogInformation("Roles seeded successfully!");
-
-            logger.LogInformation("Seeding default manager...");
-            await AuthorizationHelper.SeedDefaultManagerAsync(services);
-            logger.LogInformation("Default manager seeded successfully!");
+                try
+                {
+                    var userRoleExists = await roleManager.RoleExistsAsync(CozyHouse.Core.Domain.Enums.Roles.User.ToString());
+                    logger.LogInformation($"User role exists: {userRoleExists}");
+                }
+                catch (Exception ex)
+                {
+                    logger.LogWarning(ex, "Could not check if User role exists, but application will continue");
+                }
+            }
         }
-        else
+        catch (Exception ex)
         {
-            logger.LogError("Cannot connect to the database. Application will start without database initialization.");
+            logger.LogError(ex, "Error during database connection test, but application will continue");
         }
     }
-    catch (Exception ex)
+    else
     {
-        logger.LogError(ex, "An error occurred during database initialization. Application will continue without database initialization.");
+        // В середовищі розробки виконуємо повну ініціалізацію
+        try
+        {
+            // Застосування міграцій
+            var dbContext = services.GetRequiredService<ApplicationDbContext>();
+            logger.LogInformation("Checking database connection...");
+            if (await dbContext.Database.CanConnectAsync())
+            {
+                logger.LogInformation("Database connection successful");
+
+                logger.LogInformation("Applying migrations...");
+                await dbContext.Database.MigrateAsync();
+                logger.LogInformation("Migrations applied successfully!");
+
+                // Ініціалізація ролей та користувачів
+                logger.LogInformation("Seeding roles...");
+                await AuthorizationHelper.SeedRolesAsync(services);
+                logger.LogInformation("Roles seeded successfully!");
+
+                logger.LogInformation("Seeding default manager...");
+                await AuthorizationHelper.SeedDefaultManagerAsync(services);
+                logger.LogInformation("Default manager seeded successfully!");
+            }
+            else
+            {
+                logger.LogError("Cannot connect to the database. Application will start without database initialization.");
+            }
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "An error occurred during database initialization. Application will continue without database initialization.");
+        }
     }
 }
 
