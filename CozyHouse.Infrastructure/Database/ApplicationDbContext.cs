@@ -18,8 +18,34 @@ namespace CozyHouse.Infrastructure.Database
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-            builder.Entity<UserAdoptionRequest>().HasOne(r => r.Adopter).WithMany().HasForeignKey(r => r.AdopterId).OnDelete(DeleteBehavior.Restrict);
-            builder.Entity<UserAdoptionRequest>().HasOne(r => r.Owner).WithMany().HasForeignKey(r => r.OwnerId).OnDelete(DeleteBehavior.Restrict);
+
+            // Cascade delete: User → UserPetPublication
+            builder.Entity<UserPetPublication>()
+                .HasOne(p => p.Owner)
+                .WithMany()
+                .HasForeignKey(p => p.OwnerId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // Cascade delete: User → UserAdoptionRequest (Adopter)
+            builder.Entity<UserAdoptionRequest>()
+                .HasOne(r => r.Adopter)
+                .WithMany()
+                .HasForeignKey(r => r.AdopterId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // Cascade delete: User → UserAdoptionRequest (Owner)
+            builder.Entity<UserAdoptionRequest>()
+                .HasOne(r => r.Owner)
+                .WithMany()
+                .HasForeignKey(r => r.OwnerId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // Cascade delete: User → ShelterAdoptionRequest (Adopter)
+            builder.Entity<ShelterAdoptionRequest>()
+                .HasOne(r => r.Adopter)
+                .WithMany()
+                .HasForeignKey(r => r.AdopterId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

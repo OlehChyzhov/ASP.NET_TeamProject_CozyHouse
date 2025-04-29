@@ -19,7 +19,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
     options.UseNpgsql(builder.Configuration.GetConnectionString("PostgreSQLConnectionString"));
-    // options.UseSqlite(builder.Configuration.GetConnectionString("SqliteConnectionString"));
+    //options.UseSqlite(builder.Configuration.GetConnectionString("SqliteConnectionString"));
 });
 
 builder.Services.AddScoped<IShelterPetPublicationRepository, ShelterPetPublicationRepository>();
@@ -44,6 +44,8 @@ builder.Services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
     options.Password.RequireDigit = false;
     options.Password.RequireNonAlphanumeric = false;
     options.Password.RequireUppercase = false;
+    options.Password.RequiredLength = 2;
+    options.Password.RequireLowercase = false;
 })  
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders()

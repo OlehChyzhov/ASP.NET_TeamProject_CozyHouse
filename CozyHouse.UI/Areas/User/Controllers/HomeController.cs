@@ -34,9 +34,9 @@ namespace CozyHouse.UI.Areas.User.Controllers
         [HttpPost]
         public async Task<IActionResult> DeleteAccount(ApplicationUser user)
         {
-            await _authorizationService.LogoutAsync();
             await _authorizationService.DeleteAsync(User.GetUserId());
-            return RedirectToAction("Index", "Home", new { area = "" }); ;
+            await _authorizationService.LogoutAsync();
+            return RedirectToAction("Index", "Home", new { area = "" });
         }
     }
 }
