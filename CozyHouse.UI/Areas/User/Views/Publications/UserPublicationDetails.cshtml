@@ -1,18 +1,114 @@
 ﻿@model UserPetPublication
 @{
-    ViewBag.Title = "Pet listing";
+    ViewBag.Title = "Pet Adoption";
 }
 
-<link rel="stylesheet" href="~/css/content/EditForm.css" asp-append-version="true" />
-<form method="post" asp-area="User" asp-controller="Adoption" asp-action="AdoptFromUser" asp-route-publicationId="@Model.Id">
-    <h1>@Model.PublicationTitle</h1>
+<link rel="stylesheet" href="~/css/Shared/PetPublications/pet_adoption.css" asp-append-version="true" />
 
-    <h2>@Model.Summary</h2>
-    <h4>@Model.Description</h4>
+<div class="adoption-container">
+    <div class="header-container">
+        <a asp-area="User" asp-controller="UserPublicationsManage" asp-action="Back" class="back-button">Back</a>
+        <h1>@Model.PublicationTitle</h1>
+    </div>
 
-    <h2>Name: @Model.PetName</h2>
-    <h2>Age: @Model.PetAge</h2>
-    <h2>PetType: @Model.PetType.ToString()</h2>
+    <div class="content-grid">
+        <div class="photo-section">
+            <div class="photo-navigation">
+                <button class="nav-arrow prev" id="prevPhoto">←</button>
+                <div class="photo-container" id="photoContainer">
+                    @if (Model.Images != null && Model.Images.Any())
+                    {
+                        var isFirst = true;
+                        @foreach (var image in Model.Images)
+                        {
+                            <img src="@image.ImageUrl" class="pet-photo" alt="Photo of @Model.PetName" style="display: @(isFirst ? "block" : "none");" />
+                            isFirst = false;
+                        }
+                    }
+                    else
+                    {
+                        <img src="~/images/default-pet.jpg" class="pet-photo" alt="Default pet image" style="display: block;" />
+                    }
+                </div>
+                <button class="nav-arrow next" id="nextPhoto">→</button>
+            </div>
 
-    <button type="submit">Adopt</button>
-</form>
+            <div class="summary-box">
+                <h2>Summary</h2>
+                <p>@Model.Summary</p>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <div class="description-box">
+                <h2>Description</h2>
+                <p>@Model.Description</p>
+            </div>
+
+            <div class="pets-info-box">
+                <h2>Pet Information</h2>
+                <div class="pet-details">
+                    <p><strong>Name:</strong> @Model.PetName</p>
+                    <p><strong>Age:</strong> @Model.PetAge</p>
+                    <p><strong>Type:</strong> @Model.PetType.ToString()</p>
+                    @if (!string.IsNullOrEmpty(Model.Breed))
+                    {
+                        <p><strong>Breed:</strong> @Model.Breed</p>
+                    }
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="adopt-section">
+        <form method="post" asp-area="User" asp-controller="Adoption" asp-action="AdoptFromShelter" asp-route-publicationId="@Model.Id">
+            <button type="submit" class="adopt-button">Adopt</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const photoContainer = document.getElementById('photoContainer');
+        const photos = photoContainer.querySelectorAll('.pet-photo');
+        const prevBtn = document.getElementById('prevPhoto');
+        const nextBtn = document.getElementById('nextPhoto');
+        let currentIndex = 0;
+
+        if (photos.length <= 1) {
+            prevBtn.style.display = 'none';
+            nextBtn.style.display = 'none';
+
+            if (photos.length === 1) {
+                photos[0].style.display = 'block';
+            }
+        } else {
+            updatePhotoDisplay();
+        }
+
+        prevBtn.addEventListener('click', function () {
+            if (currentIndex > 0) {
+                currentIndex--;
+            } else {
+                currentIndex = photos.length - 1;
+            }
+            updatePhotoDisplay();
+        });
+
+        nextBtn.addEventListener('click', function () {
+            if (currentIndex < photos.length - 1) {
+                currentIndex++;
+            } else {
+                currentIndex = 0;
+            }
+            updatePhotoDisplay();
+        });
+
+        function updatePhotoDisplay() {
+            photos.forEach((photo, index) => {
+                photo.style.display = index === currentIndex ? 'block' : 'none';
+            });
+        }
+    });
+</script>
