@@ -8,7 +8,7 @@
     @{
         foreach (UserPetPublication publication in Model)
         {
-            <form method="post" asp-area="" asp-controller="Pets" asp-action="UserPublicationDetails" asp-route-publicationId="@publication.Id">
+            <form method="post" asp-area="" asp-controller="Publication" asp-action="UserPublicationDetails" asp-route-publicationId="@publication.Id">
                 <button>
                     <div class="publication">
                         <div class="top-part">

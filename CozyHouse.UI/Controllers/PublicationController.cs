@@ -5,20 +5,20 @@ using Microsoft.AspNetCore.Mvc;
 namespace CozyHouse.UI.Areas.Guest.Controllers
 {
     [AllowAnonymous]
-    public class PetsController : Controller
+    public class PublicationController : Controller
     {
         IShelterPetPublicationRepository _petPublicationRepository;
         IUserPetPublicationRepository _userPetPublicationRepository;
-        public PetsController(IShelterPetPublicationRepository petPublicationRepository, IUserPetPublicationRepository userPetPublicationRepository)
+        public PublicationController(IShelterPetPublicationRepository petPublicationRepository, IUserPetPublicationRepository userPetPublicationRepository)
         {
             _petPublicationRepository = petPublicationRepository;
             _userPetPublicationRepository = userPetPublicationRepository;
         }
-        public IActionResult ShelterPets()
+        public IActionResult ShelterPublications()
         {
             return View(_petPublicationRepository.GetAll());
         }
-        public IActionResult UserPets()
+        public IActionResult UserPublications()
         {
             return View(_userPetPublicationRepository.GetAll());
         }

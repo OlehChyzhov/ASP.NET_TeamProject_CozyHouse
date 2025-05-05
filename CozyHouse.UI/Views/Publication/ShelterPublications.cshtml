@@ -9,7 +9,7 @@
 @{
     foreach (ShelterPetPublication publication in Model)
     {
-            <form method="post" asp-area="" asp-controller="Pets" asp-action="ShelterPublicationDetails" asp-route-publicationId="@publication.Id">
+            <form method="post" asp-area="" asp-controller="Publication" asp-action="ShelterPublicationDetails" asp-route-publicationId="@publication.Id">
             <button>
                 <div class="publication">
                     <div class="top-part">
