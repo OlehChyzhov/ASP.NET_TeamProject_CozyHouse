@@ -5,11 +5,11 @@ using Microsoft.AspNetCore.Mvc;
 namespace CozyHouse.UI.Areas.Guest.Controllers
 {
     [AllowAnonymous]
-    public class PublicationController : Controller
+    public class PublicationsController : Controller
     {
         IShelterPetPublicationRepository _petPublicationRepository;
         IUserPetPublicationRepository _userPetPublicationRepository;
-        public PublicationController(IShelterPetPublicationRepository petPublicationRepository, IUserPetPublicationRepository userPetPublicationRepository)
+        public PublicationsController(IShelterPetPublicationRepository petPublicationRepository, IUserPetPublicationRepository userPetPublicationRepository)
         {
             _petPublicationRepository = petPublicationRepository;
             _userPetPublicationRepository = userPetPublicationRepository;
