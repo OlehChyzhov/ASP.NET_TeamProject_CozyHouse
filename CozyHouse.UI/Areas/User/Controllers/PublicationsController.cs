@@ -28,11 +28,11 @@ namespace CozyHouse.UI.Areas.User.Controllers
         }
         public IActionResult ShelterPublicationDetails(Guid publicationId)
         {
-            return View(_shelterPetPublicationService.Get(publicationId));
+            return View("PetPublicationDetails", _shelterPetPublicationService.Get(publicationId));
         }
         public IActionResult UserPublicationDetails(Guid publicationId)
         {
-            return View(_userPetPublicationService.Get(publicationId));
+            return View("PetPublicationDetails", _userPetPublicationService.Get(publicationId));
         }
     }
 }
