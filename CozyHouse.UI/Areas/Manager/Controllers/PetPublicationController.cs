@@ -28,10 +28,10 @@ namespace CozyHouse.UI.Areas.Manager.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(ShelterPetPublication publication, IFormFile[] petImages)
+        public async Task<IActionResult> Create(ShelterPetPublication publication, IFormFile[] petImages)
         {
             bool result = _publicationService.Add(publication, petImages);
-            if (result == true) _userStatsService.IncreasePublicationsCreatedCounterAsync(User.GetUserId(), 1);
+            if (result == true) await _userStatsService.IncreasePublicationsCreatedCounterAsync(User.GetUserId(), 1);
 
             Notificator.CreateNotification(this, result == true ? "Publication Create Success" : "Publication Create Failure", result == true ? "success" : "error");
             return RedirectToAction("Index");
@@ -52,10 +52,10 @@ namespace CozyHouse.UI.Areas.Manager.Controllers
         }
 
         [HttpPost]
-        public IActionResult Delete(Guid id)
+        public async Task<IActionResult> Delete(Guid id)
         {
             bool result = _publicationService.Delete(id);
-            if (result == true) _userStatsService.DecreasePublicationsCreatedCounterAsync(User.GetUserId(), 1);
+            if (result == true) await _userStatsService.DecreasePublicationsCreatedCounterAsync(User.GetUserId(), 1);
 
             Notificator.CreateNotification(this, result == true ? "Publication Delete Success" : "Publication Delete Failure", result == true ? "success" : "error");
             return RedirectToAction("Index");

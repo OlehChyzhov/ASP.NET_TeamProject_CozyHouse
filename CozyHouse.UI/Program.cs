@@ -62,6 +62,7 @@ builder.Services.AddAuthorization(options =>
 builder.Services.ConfigureApplicationCookie(options =>
 {
     options.LoginPath = "/Authorization/Login";
+    options.AccessDeniedPath = "/Authorization/Login";
 });
 
 var app = builder.Build();

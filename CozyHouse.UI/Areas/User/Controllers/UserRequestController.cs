@@ -24,12 +24,12 @@ namespace CozyHouse.UI.Areas.User.Controllers
             return View(requests);
         }
         [HttpPost]
-        public IActionResult Approve(Guid id)
+        public async Task<IActionResult> Approve(Guid id)
         {
             UserAdoptionRequest? request = _userAdoptionRequestService.Get(id);
             bool result = _userAdoptionRequestService.Approve(id);
 
-            if (result == true && request != null) _userStatsService.IncreasePetsAdoptedCounterAsync(request.AdopterId, 1);
+            if (result == true && request != null) await _userStatsService.IncreasePetsAdoptedCounterAsync(request.AdopterId, 1);
 
             if (result == true) Notificator.CreateNotification(this, "Request Approved! :D", "success");
             return RedirectToAction("Index");

@@ -15,10 +15,7 @@ namespace CozyHouse.UI.Areas.User.Controllers
         IUserStatsService _userStatsService;
         IShelterPetPublicationService _shelterPublicationService; 
 
-        public UserPublicationsManageController(
-            IUserPetPublicationService publicationService,
-            IUserStatsService userStatsService,
-            IShelterPetPublicationService shelterPublicationService = null) 
+        public UserPublicationsManageController(IUserPetPublicationService publicationService, IUserStatsService userStatsService, IShelterPetPublicationService shelterPublicationService) 
         {
             _publicationService = publicationService;
             _userStatsService = userStatsService;
@@ -30,22 +27,16 @@ namespace CozyHouse.UI.Areas.User.Controllers
             return View(_publicationService.GetAll().Where(pub => pub.OwnerId == User.GetUserId()));
         }
 
-        public IActionResult Back()
-        {
-            var userPublications = _publicationService.GetAll();
-            return View("~/Areas/User/Views/Publications/UserPublications.cshtml", userPublications);
-        }
-
         public IActionResult Create()
         {
             return View();
         }
 
         [HttpPost]
-        public IActionResult Create(UserPetPublication publication, IFormFile[] petImages)
+        public async Task<IActionResult> Create(UserPetPublication publication, IFormFile[] petImages)
         {
             bool result = _publicationService.Add(publication, petImages);
-            if (result == true) _userStatsService.IncreasePublicationsCreatedCounterAsync(User.GetUserId(), 1);
+            if (result == true) await _userStatsService.IncreasePublicationsCreatedCounterAsync(User.GetUserId(), 1);
             Notificator.CreateNotification(this, result == true ? "Publication Create Success" : "Publication Create Error", result == true ? "success" : "error");
             return RedirectToAction("Index");
         }
@@ -64,10 +55,10 @@ namespace CozyHouse.UI.Areas.User.Controllers
         }
 
         [HttpPost]
-        public IActionResult Delete(Guid id)
+        public async Task<IActionResult> Delete(Guid id)
         {
             bool result = _publicationService.Delete(id);
-            if (result == true) _userStatsService.DecreasePublicationsCreatedCounterAsync(User.GetUserId(), 1);
+            if (result == true) await _userStatsService.DecreasePublicationsCreatedCounterAsync(User.GetUserId(), 1);
             Notificator.CreateNotification(this, result == true ? "Publication Delete Success" : "Publication Delete Error", result == true ? "success" : "error");
             return RedirectToAction("Index");
         }
