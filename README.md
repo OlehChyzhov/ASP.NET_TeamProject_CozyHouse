@@ -15,8 +15,8 @@ Additionally, the application allows regular users to post profiles of stray ani
 ## Data Access
 ![Data Access](Assets/CozyHouse.DataAccess.png)
 
-## Identity & Entities
-![Identity & Entities](Assets/CozyHouseSystem.IdentityWithEntites.png)
+## Entities
+![Entities](Assets/CozyHouse.Entites.png)
 
-## Downloadable Resources
-- [Table](Assets/CozyHouse_Table_English_V2.xlsx)
+## Identity
+![Entities](Assets/CozyHouse.Identity.png)
