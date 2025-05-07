@@ -10,7 +10,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Assets\CozyHouse.DataAccess.png = Assets\CozyHouse.DataAccess.png
 		Assets\CozyHouse.Entities.png = Assets\CozyHouse.Entities.png
 		Assets\CozyHouse.Identity.png = Assets\CozyHouse.Identity.png
-		Assets\CozyHouseSystem.IdentityWithEntites.png = Assets\CozyHouseSystem.IdentityWithEntites.png
 		Assets\CozyHouse_Table_English_V2.xlsx = Assets\CozyHouse_Table_English_V2.xlsx
 		Assets\CozyHouse_UseCase_English_V2.drawio = Assets\CozyHouse_UseCase_English_V2.drawio
 		Assets\CozyHouse_UseCase_English_V2.png = Assets\CozyHouse_UseCase_English_V2.png
