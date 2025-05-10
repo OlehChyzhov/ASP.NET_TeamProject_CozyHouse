@@ -11,7 +11,6 @@
 </form>
 
 <div class="page-layout-container">
-    @* Renamed for clarity *@
     <div class="form-container">
         <form method="post" enctype="multipart/form-data" asp-area="Manager" asp-controller="PetPublication" asp-action="Edit" class="main-form">
             <input type="hidden" asp-for="Id" />
@@ -20,23 +19,29 @@
 
             <h2>Publication Information</h2>
             <div>
+                <label asp-for="PublicationTitle">Title</label>
                 <input type="text" placeholder="Title" asp-for="PublicationTitle" />
             </div>
             <div>
+                <label asp-for="Summary">Summary</label>
                 <textarea placeholder="Summary" asp-for="Summary"></textarea>
             </div>
             <div>
+                <label asp-for="Description">Description</label>
                 <textarea placeholder="Description" asp-for="Description"></textarea>
             </div>
             <div>
+                <label asp-for="Location">Location</label>
                 <input placeholder="Location" asp-for="Location" />
             </div>
 
             <h2>Pet Information</h2>
             <div>
+                <label asp-for="PetName">Pet Name</label>
                 <input placeholder="Pet Name" asp-for="PetName" />
             </div>
             <div>
+                <label asp-for="PetAge">Pet Age</label>
                 <input placeholder="Pet Age" asp-for="PetAge" /> @* Consider type="number" *@
             </div>
 
@@ -52,21 +57,22 @@
                 </select>
             </div>
             <div>
+                <label asp-for="Breed">Breed</label>
                 <input placeholder="Breed" asp-for="Breed" />
             </div>
 
             <div class="checkbox-with-label">
-                <input type="checkbox" asp-for="IsVaccinated" name="IsVaccinated" id="IsVaccinatedEdit" />
+                <input type="checkbox" asp-for="IsVaccinated" id="IsVaccinatedEdit" />
                 <label for="IsVaccinatedEdit">Is Vaccinated?</label>
             </div>
             <div class="checkbox-with-label">
-                <input type="checkbox" asp-for="IsSterilized" name="IsSterilized" id="IsSterilizedEdit" />
+                <input type="checkbox" asp-for="IsSterilized" id="IsSterilizedEdit" />
                 <label for="IsSterilizedEdit">Is Sterilized?</label>
             </div>
 
             <div>
-                <label for="newPetImagesInput">Upload new images (optional, will replace/add to existing based on backend logic):</label>
-                <input type="file" name="newPetImages" id="newPetImagesInput" multiple onchange="previewSelectedImages(event)" />
+                <label for="newPetImagesInput">Upload new images (optional, will add to existing):</label>
+                <input type="file" name="newPetImages" id="newPetImagesInput" multiple onchange="previewNewImages(event)" />
             </div>
 
             <div>
@@ -77,19 +83,26 @@
 
     <div class="image-gallery-container">
         <h2>New Images Preview</h2>
-        <div id="imagePreviewArea" class="image-preview-grid">
+        <div id="newImagePreviewArea" class="image-preview-grid">
             <p class="no-images-text">No new images selected.</p>
         </div>
 
         @if (Model.Images != null && Model.Images.Any())
         {
             <h2>Current Images</h2>
+            <p class="instruction-text">Check images you want to remove:</p>
             <div class="current-images-grid image-preview-grid">
-                @foreach (var image in Model.Images)
+                @for (int i = 0; i < Model.Images.Count; i++)
                 {
-                    <div class="image-preview-item">
+                    var image = Model.Images[i];
+                    <div class="image-preview-item current-image-item">
                         <img src="@image.ImageUrl" alt="Current pet image: @Model.PetName" />
-                        @* Optionally, add a way to mark images for deletion here if your backend supports it *@
+                        <div class="delete-image-overlay">
+                            @* Важливо: name="ImagesToDelete" має відповідати параметру у вашому методі Edit контролера (наприклад, List<Guid> ImagesToDelete, якщо ImageUrl - це Guid).
+                                Якщо ви використовуєте ImageUrl як ідентифікатор, переконайтеся, що ваш бекенд це обробляє. *@
+                            <input type="checkbox" name="ImagesToDelete" value="@image.Id" id="deleteImage_@i" class="delete-image-checkbox" />
+                            <label for="deleteImage_@i" class="delete-image-label" title="Mark to Delete"></label>
+                        </div>
                     </div>
                 }
             </div>
@@ -97,17 +110,15 @@
         else
         {
             <h2>Current Images</h2>
-            <p>No current images available for this publication.</p>
+            <p class="no-images-text">No current images available for this publication.</p>
         }
     </div>
 </div>
 
 @section Scripts {
     <script>
-        // Same previewSelectedImages function as in Create.cshtml
-        function previewSelectedImages(event) {
-            const previewArea = document.getElementById('imagePreviewArea'); // Targets the new images preview
-            const noImagesText = previewArea.querySelector('.no-images-text');
+        function previewNewImages(event) {
+            const previewArea = document.getElementById('newImagePreviewArea');
             previewArea.innerHTML = '';
 
             const files = event.target.files;
@@ -128,8 +139,24 @@
                     }
                 });
             } else {
-                 previewArea.innerHTML = '<p class="no-images-text">No new images selected.</p>';
+                previewArea.innerHTML = '<p class="no-images-text">No new images selected.</p>';
             }
         }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const currentImageItems = document.querySelectorAll('.current-image-item');
+            currentImageItems.forEach(item => {
+                const checkbox = item.querySelector('.delete-image-checkbox');
+                if (checkbox) {
+                    checkbox.addEventListener('change', function () {
+                        if (this.checked) {
+                            item.classList.add('marked-for-deletion');
+                        } else {
+                            item.classList.remove('marked-for-deletion');
+                        }
+                    });
+                }
+            });
+        });
     </script>
 }

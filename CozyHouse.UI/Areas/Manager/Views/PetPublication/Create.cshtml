@@ -1,5 +1,5 @@
 ﻿@model ShelterPetPublication
-@inject IShelterPetPublicationRepository _petPublicationRepository
+@* Inject IShelterPetPublicationRepository _petPublicationRepository - це зазвичай робиться в контролері, а не у View *@
 @{
     ViewBag.Title = "Create New Pet Publication";
     Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value!);
@@ -11,7 +11,6 @@
 </form>
 
 <div class="page-layout-container">
-    @* Renamed for clarity and to apply flex for side-by-side *@
     <div class="form-container">
         <form method="post" enctype="multipart/form-data" asp-area="Manager" asp-controller="PetPublication" asp-action="Create"
               class="main-form">
@@ -19,23 +18,29 @@
 
             <h2>Publication Information</h2>
             <div>
+                <label asp-for="PublicationTitle">Title</label>
                 <input type="text" placeholder="Title" asp-for="PublicationTitle" />
             </div>
             <div>
+                <label asp-for="Summary">Summary</label>
                 <textarea placeholder="Summary" asp-for="Summary"></textarea>
             </div>
             <div>
+                <label asp-for="Description">Description</label>
                 <textarea placeholder="Description" asp-for="Description"></textarea>
             </div>
             <div>
+                <label asp-for="Location">Location</label>
                 <input placeholder="Location" asp-for="Location" />
             </div>
 
             <h2>Pet Information</h2>
             <div>
+                <label asp-for="PetName">Pet Name</label>
                 <input placeholder="Pet Name" asp-for="PetName" />
             </div>
             <div>
+                <label asp-for="PetAge">Pet Age</label>
                 <input placeholder="Pet Age" asp-for="PetAge" /> @* Consider type="number" if appropriate *@
             </div>
 
@@ -51,21 +56,23 @@
                 </select>
             </div>
             <div>
+                <label asp-for="Breed">Breed</label>
                 <input placeholder="Breed" asp-for="Breed" />
             </div>
 
             <div class="checkbox-with-label">
-                <input type="checkbox" asp-for="IsVaccinated" name="IsVaccinated" id="IsVaccinated" />
-                <label for="IsVaccinated">Is Vaccinated?</label>
+                <input type="checkbox" asp-for="IsVaccinated" id="IsVaccinatedCreate" />
+                <label for="IsVaccinatedCreate">Is Vaccinated?</label>
             </div>
             <div class="checkbox-with-label">
-                <input type="checkbox" asp-for="IsSterilized" name="IsSterilized" id="IsSterilized" />
-                <label for="IsSterilized">Is Sterilized?</label>
+                <input type="checkbox" asp-for="IsSterilized" id="IsSterilizedCreate" />
+                <label for="IsSterilizedCreate">Is Sterilized?</label>
             </div>
 
             <div>
                 <label for="petImagesInput">Select pet images (multiple allowed):</label>
-                <input type="file" name="petImages" id="petImagesInput" multiple required onchange="previewSelectedImages(event)" />
+                @* У Create.cshtml name для файлів може бути petImages або newPetImages, узгодьте з вашим Create методом контролера *@
+                <input type="file" name="petImages" id="petImagesInput" multiple required onchange="previewSelectedImagesForCreate(event)" />
             </div>
 
             <div>
@@ -76,8 +83,7 @@
 
     <div class="image-gallery-container">
         <h2>Image Preview</h2>
-        <div id="imagePreviewArea" class="image-preview-grid">
-            @* Selected images will be shown here by JavaScript *@
+        <div id="imagePreviewAreaCreate" class="image-preview-grid">
             <p class="no-images-text">No images selected yet.</p>
         </div>
     </div>
@@ -85,16 +91,12 @@
 
 @section Scripts {
     <script>
-        function previewSelectedImages(event) {
-            const previewArea = document.getElementById('imagePreviewArea');
-            const noImagesText = previewArea.querySelector('.no-images-text');
-            previewArea.innerHTML = ''; // Clear previous previews, including "no images" text initially if re-adding it
+        function previewSelectedImagesForCreate(event) {
+            const previewArea = document.getElementById('imagePreviewAreaCreate');
+            previewArea.innerHTML = '';
 
             const files = event.target.files;
             if (files && files.length > 0) {
-                if (noImagesText) {
-                    // noImagesText.style.display = 'none'; // Hide "no images" text
-                } // Re-add it if no files are selected after clearing
                  Array.from(files).forEach(file => {
                     if (file.type.startsWith('image/')) {
                         const reader = new FileReader();
@@ -111,7 +113,7 @@
                     }
                 });
             } else {
-                 previewArea.innerHTML = '<p class="no-images-text">No images selected yet.</p>'; // Show if no files
+                 previewArea.innerHTML = '<p class="no-images-text">No images selected yet.</p>';
             }
         }
     </script>

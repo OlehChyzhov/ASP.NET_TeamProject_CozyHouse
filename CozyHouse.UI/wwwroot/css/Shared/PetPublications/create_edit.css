@@ -1,276 +1,142 @@
-﻿.form-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 30px 0;
-    padding: 10px;
-}
-
-.main-form {
-    background: #FFFFFF;
-    border-radius: 16px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
-    max-width: 450px;
-    width: 100%;
-    text-align: center;
-    box-sizing: border-box;
-    padding: 25px;
-    transition: transform 0.3s ease;
-}
-
-h1 {
-    font-family: 'Georgia', serif;
-    color: #333;
-    font-size: 38px;
-    font-weight: bold;
-    text-align: center;
-    margin-bottom: 30px;
-    position: relative;
-}
-
-h2 {
-    font-family: 'Georgia', serif;
-    color: #333;
-    margin: 20px 0 15px;
-    font-size: 22px;
-    position: relative;
-    display: inline-block;
-}
-
-.checkbox-with-label {
-    display: flex;
-    gap: 10px;
-    justify-content: center;
-    align-items: center;
-    font-size: 16px;
-    color: #555;
-    margin: 15px 0;
-}
-
-    .checkbox-with-label input[type="checkbox"] {
-        width: 18px;
-        height: 18px;
-        cursor: pointer;
-    }
-
-.top-button {
-    display: flex;
-    justify-content: center;
-    margin: 20px 0;
-}
-
-    .top-button button {
-        width: 60%;
-        transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-    }
-
-        .top-button button:hover {
-            width: 90%;
-            letter-spacing: 1px;
-        }
-
-button {
-    display: inline-block;
-    padding: 10px 20px;
-    font-size: 18px;
-    font-weight: 600;
-    color: #b0855b;
-    border: 2px solid #b0855b;
-    border-radius: 12px;
-    background: transparent;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    margin: 15px 0;
-    position: relative;
-    overflow: hidden;
-}
-
-    button:hover {
-        background: #b0855b;
-        color: white;
-        box-shadow: 0 5px 15px rgba(176, 133, 91, 0.4);
-    }
-
-    button:active {
-        transform: translateY(2px);
-    }
-
-textarea {
-    width: 100%;
-    height: 120px;
-    resize: none;
-    overflow-y: auto;
-    padding: 15px;
-    border: 2px solid #ddd;
-    border-radius: 10px;
-    font-size: 16px;
-    box-sizing: border-box;
-    margin-top: 15px;
-    transition: border-color 0.3s ease;
-    font-family: inherit;
-}
-
-    textarea:focus {
-        border-color: #b0855b;
-        outline: none;
-        box-shadow: 0 0 8px rgba(176, 133, 91, 0.2);
-    }
-
-input {
-    margin-top: 15px;
-    font-size: 16px;
-    border: 2px solid #ddd;
-    border-radius: 10px;
-    padding: 12px 15px;
-    width: 100%;
-    box-sizing: border-box;
-    transition: border-color 0.3s ease;
-}
-
-    input:focus {
-        border-color: #b0855b;
-        outline: none;
-        box-shadow: 0 0 8px rgba(176, 133, 91, 0.2);
-    }
-
-
-body {
-    font-family: 'Arial', sans-serif; /* Example: a common, clean font */
-    background-color: #f4f7f6; /* Light background for the page */
-    color: #333;
-    margin: 0;
-    padding: 0;
-}
-
+﻿
+/* Layout Container for Form and Gallery */
 .page-layout-container {
     display: flex;
-    flex-wrap: wrap; /* Allow wrapping on smaller screens */
-    justify-content: space-between; /* Puts space between form and gallery */
+    flex-wrap: wrap;
+    justify-content: space-around;
     padding: 20px;
-    gap: 30px; /* Space between form and gallery */
-    align-items: flex-start; /* Align items to the top */
+    gap: 30px;
+    align-items: flex-start;
 }
 
+/* Form and Image Gallery Containers Styling */
 .form-container,
 .image-gallery-container {
     background: #FFFFFF;
     border-radius: 16px;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-    padding: 25px 30px; /* Adjusted padding */
+    padding: 25px 30px;
     box-sizing: border-box;
-    flex: 1 1 450px; /* Flex properties: grow, shrink, basis. Allows them to share space but have a base width. */
-    min-width: 320px; /* Minimum width before wrapping or shrinking too much */
+    flex: 1 1 480px; /* Збільшено flex-basis для ширшого контенту */
+    min-width: 320px;
+    margin-bottom: 20px;
 }
 
 .main-form {
-    /* background, border-radius, box-shadow are now on .form-container */
     width: 100%;
-    text-align: left; /* Align form content to the left for a more standard look */
+    text-align: left;
 }
 
-    .main-form h1, .main-form h2 {
-        text-align: center; /* Keep titles centered if preferred */
-        color: #2c3e50; /* Darker, modern color */
-    }
-
-    .main-form h2 {
-        margin-top: 25px;
-        margin-bottom: 15px;
-        font-size: 20px; /* Slightly smaller h2 */
-        border-bottom: 1px solid #eee;
-        padding-bottom: 10px;
-    }
-
-.image-gallery-container h2 {
-    text-align: center;
+/* Headings */
+h1 {
+    font-family: 'Georgia', serif;
     color: #2c3e50;
-    font-size: 20px;
-    margin-top: 0; /* Remove top margin if it's the first element */
+    font-size: 32px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.main-form h2,
+.image-gallery-container h2 {
+    font-family: 'Georgia', serif;
+    color: #2c3e50;
+    margin-top: 25px;
     margin-bottom: 20px;
+    font-size: 24px;
+    text-align: center;
     border-bottom: 1px solid #eee;
     padding-bottom: 10px;
 }
 
-/* Grid for image previews for better alignment and spacing */
-.image-preview-grid,
-.current-images-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); /* Responsive columns */
-    gap: 15px; /* Space between images */
-    padding-top: 10px;
+.image-gallery-container h2 {
+    margin-top: 0;
 }
 
-.image-preview-item {
-    position: relative;
-    overflow: hidden;
-    border-radius: 8px; /* Rounded corners for the container */
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Subtle shadow for depth */
-    aspect-ratio: 1 / 1; /* Make items square, adjust as needed */
-}
-
-    .image-preview-item img {
-        display: block;
-        width: 100%;
-        height: 100%;
-        object-fit: cover; /* Crop images to fit, maintaining aspect ratio */
-        transition: transform 0.3s ease;
-    }
-
-    .image-preview-item:hover img {
-        transform: scale(1.05); /* Slight zoom on hover */
-    }
-
-.no-images-text {
-    grid-column: 1 / -1; /* Make text span all columns if grid is empty */
+.instruction-text {
     text-align: center;
-    color: #777;
-    padding: 20px;
-    font-style: italic;
+    color: #555;
+    margin-bottom: 15px;
+    font-size: 14px;
 }
 
-/* Ensure labels are associated with inputs correctly */
-.main-form div > label,
-.checkbox-with-label label {
-    display: block; /* Make labels block for better spacing */
+
+/* Top Button ("Back to List") Styling */
+.top-button {
+    display: flex;
+    justify-content: center;
+    margin: 20px auto;
+    max-width: 500px;
+}
+
+    .top-button button {
+        width: auto;
+        min-width: 200px;
+        padding: 12px 25px;
+        font-size: 16px;
+        font-weight: 600;
+        color: #b0855b;
+        border: 2px solid #b0855b;
+        border-radius: 8px;
+        background: transparent;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+        .top-button button:hover {
+            background: #b0855b;
+            color: white;
+            box-shadow: 0 5px 15px rgba(176, 133, 91, 0.4);
+            letter-spacing: 0.5px;
+        }
+
+/* General Button Styling (Submit Button) */
+.main-form button[type="submit"] {
+    display: block;
+    width: 100%;
+    padding: 12px 20px;
+    font-size: 18px;
+    font-weight: 600;
+    color: white;
+    background-color: #b0855b;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    margin-top: 25px;
+}
+
+    .main-form button[type="submit"]:hover {
+        background-color: #966f4a;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    }
+
+    .main-form button[type="submit"]:active {
+        transform: translateY(1px);
+    }
+
+
+/* Form Elements Styling */
+.main-form div > label {
+    display: block;
     margin-bottom: 8px;
     font-weight: 600;
     color: #555;
     font-size: 14px;
+    margin-top: 15px;
 }
 
-.checkbox-with-label {
-    display: flex;
-    align-items: center; /* Vertically align checkbox and label */
-    gap: 8px; /* Space between checkbox and label text */
-    justify-content: flex-start; /* Align to the left */
-    margin-bottom: 15px; /* Spacing below checkbox group */
-}
-
-    .checkbox-with-label input[type="checkbox"] {
-        width: auto; /* Reset width from general input style */
-        margin-top: 0; /* Reset margin */
-        height: 18px; /* Consistent height */
-        flex-shrink: 0; /* Prevent checkbox from shrinking */
-    }
-
-    .checkbox-with-label label {
-        margin-bottom: 0; /* Reset bottom margin for label inside flex */
-        font-weight: normal; /* Normal weight for checkbox label */
-    }
-
-
-/* Input and Textarea styling */
 input[type="text"],
-input[type="number"], /* If PetAge is number */
+input[type="number"],
 input[placeholder],
 textarea,
 select {
     width: 100%;
     padding: 12px 15px;
-    border: 1px solid #ccc; /* Softer border */
-    border-radius: 8px; /* More rounded corners */
+    border: 1px solid #ccc;
+    border-radius: 8px;
     box-sizing: border-box;
-    margin-top: 5px; /* Reduced top margin if label is above */
+    margin-top: 5px;
     font-size: 16px;
     color: #333;
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
@@ -281,25 +147,56 @@ select {
     input[placeholder]:focus,
     textarea:focus,
     select:focus {
-        border-color: #b0855b; /* Your primary color for focus */
-        box-shadow: 0 0 0 3px rgba(176, 133, 91, 0.2); /* Focus ring */
+        border-color: #b0855b;
+        box-shadow: 0 0 0 3px rgba(176, 133, 91, 0.2);
         outline: none;
     }
 
 textarea {
-    min-height: 100px; /* Minimum height */
-    resize: vertical; /* Allow vertical resize */
+    min-height: 120px;
+    resize: vertical;
+    font-family: inherit;
 }
 
+/* Checkbox Styling */
+.checkbox-with-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: flex-start;
+    margin-top: 20px;
+    margin-bottom: 15px;
+    font-size: 16px;
+    color: #555;
+}
+
+    .checkbox-with-label input[type="checkbox"] {
+        width: 18px;
+        height: 18px;
+        margin-top: 0;
+        cursor: pointer;
+        flex-shrink: 0;
+    }
+
+    .checkbox-with-label label {
+        margin-bottom: 0;
+        font-weight: normal;
+        font-size: 16px;
+        color: #555;
+    }
+
+/* File Input Styling */
 input[type="file"] {
+    width: 100%;
     margin-top: 5px;
     border: 1px dashed #ccc;
     padding: 10px;
     border-radius: 8px;
     background-color: #fafafa;
+    font-size: 14px;
 }
 
-    input[type="file"]::file-selector-button { /* Style the button part of file input */
+    input[type="file"]::file-selector-button {
         background-color: #b0855b;
         color: white;
         border: none;
@@ -307,44 +204,170 @@ input[type="file"] {
         border-radius: 6px;
         cursor: pointer;
         transition: background-color 0.2s ease;
+        margin-right: 10px;
     }
 
         input[type="file"]::file-selector-button:hover {
-            background-color: #966f4a; /* Darker shade on hover */
+            background-color: #966f4a;
         }
 
-/* Button styling */
-.main-form button[type="submit"] {
-    display: block; /* Make button block */
-    width: 100%; /* Full width */
-    padding: 12px 20px;
-    font-size: 18px;
-    font-weight: 600;
-    color: white;
-    background-color: #b0855b; /* Primary color */
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, box-shadow 0.3s ease;
-    margin-top: 25px; /* Space above the button */
+/* Image Preview Grid Styling */
+.image-preview-grid,
+.current-images-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); /* Збільшено minmax для більших фото */
+    gap: 20px; /* Збільшено проміжок */
+    padding-top: 10px;
 }
 
-    .main-form button[type="submit"]:hover {
-        background-color: #966f4a; /* Darker shade */
-        box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+.image-preview-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: 8px;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15); /* Трохи посилено тінь */
+    aspect-ratio: 4 / 3; /* Співвідношення сторін для фото, наприклад 4:3 */
+    background-color: #f0f0f0; /* Фон для випадків, коли фото не завантажилось */
+}
+
+    .image-preview-item img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease, opacity 0.3s ease;
     }
 
-/* Responsive adjustments */
-@media (max-width: 900px) { /* Adjust breakpoint as needed */
+    .image-preview-item:hover img {
+        transform: scale(1.05);
+    }
+
+.no-images-text {
+    grid-column: 1 / -1;
+    text-align: center;
+    color: #777;
+    padding: 20px 0;
+    font-style: italic;
+    font-size: 16px;
+}
+
+/* Styles for Image Deletion in Edit View */
+.current-image-item .delete-image-overlay {
+    position: absolute;
+    top: 5px; /* Розміщення зверху */
+    right: 5px; /* Розміщення справа */
+    background-color: rgba(255, 255, 255, 0.8); /* Світлий фон для кращої видимості галочки */
+    border-radius: 50%; /* Кругла форма */
+    width: 30px; /* Розмір контейнера галочки */
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    opacity: 0.7; /* Трохи прозорий за замовчуванням */
+    transition: opacity 0.3s ease, background-color 0.3s ease;
+}
+
+.current-image-item:hover .delete-image-overlay {
+    opacity: 1;
+}
+
+.delete-image-checkbox { /* Сама галочка */
+    appearance: none; /* Сховуємо стандартний вигляд */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 18px;
+    height: 18px;
+    border: 2px solid #b0855b; /* Колір рамки */
+    border-radius: 4px;
+    cursor: pointer;
+    outline: none;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+    position: relative; /* Для позиціонування псевдоелемента "галочки" */
+}
+
+    .delete-image-checkbox:checked {
+        background-color: #b0855b; /* Колір фону при виборі */
+        border-color: #966f4a; /* Темніший колір рамки при виборі */
+    }
+
+        .delete-image-checkbox:checked::after { /* Створення "галочки" */
+            content: '\2714'; /* Unicode check mark */
+            font-size: 14px;
+            color: white;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+
+.delete-image-label { /* Сховуємо текстовий лейбл, якщо використовуємо тільки іконку/стилізований чекбокс */
+    display: none;
+}
+
+.current-image-item.marked-for-deletion img {
+    opacity: 0.4;
+    transform: scale(0.95); /* Ефект "приглушення" */
+}
+
+.current-image-item.marked-for-deletion .delete-image-overlay {
+    background-color: rgba(176, 133, 91, 0.5); /* Зміна фону оверлею при виборі */
+}
+
+
+/* Responsive Adjustments */
+@media (max-width: 1024px) {
     .page-layout-container {
         flex-direction: column;
-        align-items: center; /* Center items when stacked */
+        align-items: center;
     }
 
     .form-container,
     .image-gallery-container {
-        flex-basis: auto; /* Reset flex-basis */
-        width: 100%; /* Full width when stacked */
-        max-width: 600px; /* Max width for single column layout */
+        flex-basis: auto;
+        width: 100%;
+        max-width: 700px;
+    }
+
+    .image-preview-grid,
+    .current-images-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    h1 {
+        font-size: 28px;
+    }
+
+    .main-form h2, .image-gallery-container h2 {
+        font-size: 20px;
+    }
+
+    .image-preview-grid,
+    .current-images-grid {
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); /* Менші фото на мобільних */
+    }
+
+    .top-button button {
+        font-size: 14px;
+        padding: 10px 20px;
+    }
+
+    .main-form button[type="submit"] {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .image-preview-grid,
+    .current-images-grid {
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); /* Ще менші фото для дуже малих екранів */
+        gap: 10px;
+    }
+
+    .form-container,
+    .image-gallery-container {
+        padding: 20px 15px; /* Менше відступів на малих екранах */
     }
 }
