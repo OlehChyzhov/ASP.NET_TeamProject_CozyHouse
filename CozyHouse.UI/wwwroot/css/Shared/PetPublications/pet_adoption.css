@@ -57,8 +57,8 @@ h1 {
     padding: 15px;
     display: flex;
     align-items: center;
-    min-height: 200px; 
-    max-height: 500px; 
+    min-height: 200px;
+    max-height: 500px;
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     background-color: white;
 }
@@ -74,7 +74,7 @@ h1 {
 
 .pet-photo {
     max-width: 100%;
-    max-height: 470px; 
+    max-height: 470px;
     object-fit: contain;
     border-radius: 8px;
 }
@@ -100,34 +100,74 @@ h1 {
         box-shadow: 0 2px 5px rgba(0,0,0,0.2);
     }
 
-.summary-box, .description-box, .pets-info-box {
+.summary-box {
     border: 2px solid #F1CDB3;
     border-radius: 15px;
     padding: 20px;
     background-color: white;
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    height: auto; 
+    height: auto;
     display: flex;
     flex-direction: column;
 }
 
-h2 {
-    color: #444;
-    margin-bottom: 15px;
-    border-bottom: 1px solid #eee;
-    padding-bottom: 8px;
-    font-size: 22px;
+.pets-info-box {
+    border: 2px solid #F1CDB3;
+    border-radius: 15px;
+    padding: 20px;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-self: flex-start;
+    width: 100%;
 }
 
 .pet-details {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 15px;
+    width: 100%;
+    padding-bottom: 5px;
 }
 
     .pet-details p {
         margin-bottom: 10px;
     }
+
+.info-section {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: stretch;
+}
+
+    .info-section > div {
+        height: auto;
+        min-height: initial;
+    }
+
+h2 {
+    color: #444;
+    margin-top: 0;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+    font-size: 22px;
+}
+
+.description-box {
+    border: 2px solid #F1CDB3;
+    border-radius: 15px;
+    padding: 20px;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: auto;
+}
 
 .adopt-section {
     display: flex;
@@ -158,12 +198,6 @@ h2 {
         transform: translateY(0);
         box-shadow: 0 3px 6px rgba(0,0,0,0.2);
     }
-
-.info-section {
-    display: grid;
-    grid-template-rows: auto 1fr;
-    gap: 20px;
-}
 
 @media (max-width: 768px) {
     .content-grid {
