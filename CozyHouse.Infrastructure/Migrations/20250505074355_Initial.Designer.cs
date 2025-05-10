@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CozyHouse.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250429185608_PostgreSQLInitial")]
-    partial class PostgreSQLInitial
+    [Migration("20250505074355_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -448,13 +448,13 @@ namespace CozyHouse.Infrastructure.Migrations
                     b.HasOne("CozyHouse.Core.Domain.IdentityEntities.ApplicationUser", "Adopter")
                         .WithMany()
                         .HasForeignKey("AdopterId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("CozyHouse.Core.Domain.IdentityEntities.ApplicationUser", "Owner")
                         .WithMany()
                         .HasForeignKey("OwnerId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("CozyHouse.Core.Domain.Entities.UserPetPublication", "PetPublication")
