@@ -69,6 +69,7 @@ footer {
     width: 100%;
     display: flex;
     justify-content: center;
+    padding: 40px 0;
 }
 
 .footer-content {
@@ -76,43 +77,46 @@ footer {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    width: 1280px;
-    height: 350px;
-    gap: 160px;
+    width: 100%;
+    max-width: 1280px;
+    gap: 40px; 
     box-sizing: border-box;
+    flex-wrap: wrap;
 }
 
 .contacts, .locations {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start; 
     gap: 32px;
-    margin-bottom: 60px;
-    text-align: center;
-}
+    margin-bottom: 20px;
 
 .footer-content a {
     display: flex;
     align-items: center;
     color: #F1CDB3;
-    font-family: 'Georgia';
+    font-family: 'Georgia', serif;
     font-size: 20px;
     line-height: 115%;
     letter-spacing: 1.2px;
     transition: color 0.3s ease;
+    text-decoration: none;
 }
 
 .footer-content h2 {
     color: #FFFFFF;
-    font-family: 'Georgia';
+    font-family: 'Georgia', serif;
     font-size: 35px;
     line-height: 130%;
     letter-spacing: 1.2px;
-    margin: 0;
-}
+    margin: 0 0 20px 0;
 
-.footer-content img {
+.footer-content img
+{
     margin-right: 20px;
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
 }
 
 .contacts a:hover, .locations a:hover {
@@ -121,4 +125,23 @@ footer {
     padding-bottom: 6px;
     transition: all 0.3s ease;
     color: #F1CDB3;
+}
+
+@media (max-width: 1024px) {
+    .footer-content {
+        gap: 20px;
+        justify-content: space-around;
+    }
+}
+
+@media (max-width: 768px) {
+    .footer-content {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .contacts, .locations {
+        align-items: center;
+    }
 }
