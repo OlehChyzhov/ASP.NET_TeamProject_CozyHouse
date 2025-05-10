@@ -1,72 +1,118 @@
 ﻿@model ShelterPetPublication
 @inject IShelterPetPublicationRepository _petPublicationRepository
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Create New Pet Publication";
     Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value!);
 }
 <link rel="stylesheet" href="~/css/Shared/PetPublications/create_edit.css" asp-append-version="true" />
 
 <form class="top-button">
-    <button asp-area="Manager" asp-controller="PetPublication" asp-action="Index">Back</button>
+    <button asp-area="Manager" asp-controller="PetPublication" asp-action="Index">Back to List</button>
 </form>
 
-<div class="form-container">
-    <form method="post" enctype="multipart/form-data" asp-area="Manager" asp-controller="PetPublication" asp-action="Create"
-          class="main-form">
-        <h1>New Pet Publication</h1>
+<div class="page-layout-container">
+    @* Renamed for clarity and to apply flex for side-by-side *@
+    <div class="form-container">
+        <form method="post" enctype="multipart/form-data" asp-area="Manager" asp-controller="PetPublication" asp-action="Create"
+              class="main-form">
+            <h1>New Pet Publication</h1>
 
-        <h2>Publication Information</h2>
-        <div>
-            <input type="text" placeholder="Title" asp-for="PublicationTitle" />
-        </div>
-        <div>
-            <textarea placeholder="Summary" asp-for="Summary" ></textarea>
-        </div>
-        <div>
-            <textarea placeholder="Description" asp-for="Description"></textarea>
-        </div>
-        <div>
-            <input placeholder="Location" asp-for="Location" />
-        </div>
+            <h2>Publication Information</h2>
+            <div>
+                <input type="text" placeholder="Title" asp-for="PublicationTitle" />
+            </div>
+            <div>
+                <textarea placeholder="Summary" asp-for="Summary"></textarea>
+            </div>
+            <div>
+                <textarea placeholder="Description" asp-for="Description"></textarea>
+            </div>
+            <div>
+                <input placeholder="Location" asp-for="Location" />
+            </div>
 
-        <h2>Pet Information</h2>
-        <div>
-            <input placeholder="Pet Name" asp-for="PetName" />
-        </div>
-        <div>
-            <input placeholder="Pet Age" asp-for="PetAge" />
-        </div>
+            <h2>Pet Information</h2>
+            <div>
+                <input placeholder="Pet Name" asp-for="PetName" />
+            </div>
+            <div>
+                <input placeholder="Pet Age" asp-for="PetAge" /> @* Consider type="number" if appropriate *@
+            </div>
 
-        <div>
-            <select asp-for="PetType">
-                @{
-                    foreach (Species species in Enum.GetValues(typeof(Species)))
-                    {
-                        <option value="@species">@species.ToString()</option>
+            <div>
+                <label asp-for="PetType">Pet Type:</label>
+                <select asp-for="PetType">
+                    @{
+                        foreach (Species species in Enum.GetValues(typeof(Species)))
+                        {
+                            <option value="@species">@species.ToString()</option>
+                        }
                     }
-                }
-            </select>
-        </div>
-        <div>
-            <input placeholder="Breed" asp-for="Breed" />
-        </div>
+                </select>
+            </div>
+            <div>
+                <input placeholder="Breed" asp-for="Breed" />
+            </div>
 
-        <div class="checkbox-with-label">
-            <label for="IsVaccinated">Is Vaccinated?</label>
-            <input type="checkbox" asp-for="IsVaccinated" name="IsVaccinated" />
-        </div>
-        <div class="checkbox-with-label">
-            <label for="IsSterilized">Is Sterilized?</label>
-            <input type="checkbox" asp-for="IsSterilized" name="IsSterilized" />
-        </div>
+            <div class="checkbox-with-label">
+                <input type="checkbox" asp-for="IsVaccinated" name="IsVaccinated" id="IsVaccinated" />
+                <label for="IsVaccinated">Is Vaccinated?</label>
+            </div>
+            <div class="checkbox-with-label">
+                <input type="checkbox" asp-for="IsSterilized" name="IsSterilized" id="IsSterilized" />
+                <label for="IsSterilized">Is Sterilized?</label>
+            </div>
 
-        <div>
-            <label>Select pet image:</label>
-            <input type="file" name="petImages" multiple required />
-        </div>
+            <div>
+                <label for="petImagesInput">Select pet images (multiple allowed):</label>
+                <input type="file" name="petImages" id="petImagesInput" multiple required onchange="previewSelectedImages(event)" />
+            </div>
 
-        <div>
-            <button type="submit">Create</button>
+            <div>
+                <button type="submit">Create Publication</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="image-gallery-container">
+        <h2>Image Preview</h2>
+        <div id="imagePreviewArea" class="image-preview-grid">
+            @* Selected images will be shown here by JavaScript *@
+            <p class="no-images-text">No images selected yet.</p>
         </div>
-    </form>
+    </div>
 </div>
+
+@section Scripts {
+    <script>
+        function previewSelectedImages(event) {
+            const previewArea = document.getElementById('imagePreviewArea');
+            const noImagesText = previewArea.querySelector('.no-images-text');
+            previewArea.innerHTML = ''; // Clear previous previews, including "no images" text initially if re-adding it
+
+            const files = event.target.files;
+            if (files && files.length > 0) {
+                if (noImagesText) {
+                    // noImagesText.style.display = 'none'; // Hide "no images" text
+                } // Re-add it if no files are selected after clearing
+                 Array.from(files).forEach(file => {
+                    if (file.type.startsWith('image/')) {
+                        const reader = new FileReader();
+                        reader.onload = function (e) {
+                            const imgContainer = document.createElement('div');
+                            imgContainer.classList.add('image-preview-item');
+                            const imgElement = document.createElement('img');
+                            imgElement.src = e.target.result;
+                            imgElement.alt = file.name;
+                            imgContainer.appendChild(imgElement);
+                            previewArea.appendChild(imgContainer);
+                        }
+                        reader.readAsDataURL(file);
+                    }
+                });
+            } else {
+                 previewArea.innerHTML = '<p class="no-images-text">No images selected yet.</p>'; // Show if no files
+            }
+        }
+    </script>
+}

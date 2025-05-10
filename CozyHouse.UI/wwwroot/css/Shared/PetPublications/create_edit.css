@@ -132,3 +132,219 @@ input {
         outline: none;
         box-shadow: 0 0 8px rgba(176, 133, 91, 0.2);
     }
+
+
+body {
+    font-family: 'Arial', sans-serif; /* Example: a common, clean font */
+    background-color: #f4f7f6; /* Light background for the page */
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+.page-layout-container {
+    display: flex;
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+    justify-content: space-between; /* Puts space between form and gallery */
+    padding: 20px;
+    gap: 30px; /* Space between form and gallery */
+    align-items: flex-start; /* Align items to the top */
+}
+
+.form-container,
+.image-gallery-container {
+    background: #FFFFFF;
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    padding: 25px 30px; /* Adjusted padding */
+    box-sizing: border-box;
+    flex: 1 1 450px; /* Flex properties: grow, shrink, basis. Allows them to share space but have a base width. */
+    min-width: 320px; /* Minimum width before wrapping or shrinking too much */
+}
+
+.main-form {
+    /* background, border-radius, box-shadow are now on .form-container */
+    width: 100%;
+    text-align: left; /* Align form content to the left for a more standard look */
+}
+
+    .main-form h1, .main-form h2 {
+        text-align: center; /* Keep titles centered if preferred */
+        color: #2c3e50; /* Darker, modern color */
+    }
+
+    .main-form h2 {
+        margin-top: 25px;
+        margin-bottom: 15px;
+        font-size: 20px; /* Slightly smaller h2 */
+        border-bottom: 1px solid #eee;
+        padding-bottom: 10px;
+    }
+
+.image-gallery-container h2 {
+    text-align: center;
+    color: #2c3e50;
+    font-size: 20px;
+    margin-top: 0; /* Remove top margin if it's the first element */
+    margin-bottom: 20px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+
+/* Grid for image previews for better alignment and spacing */
+.image-preview-grid,
+.current-images-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); /* Responsive columns */
+    gap: 15px; /* Space between images */
+    padding-top: 10px;
+}
+
+.image-preview-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: 8px; /* Rounded corners for the container */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Subtle shadow for depth */
+    aspect-ratio: 1 / 1; /* Make items square, adjust as needed */
+}
+
+    .image-preview-item img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover; /* Crop images to fit, maintaining aspect ratio */
+        transition: transform 0.3s ease;
+    }
+
+    .image-preview-item:hover img {
+        transform: scale(1.05); /* Slight zoom on hover */
+    }
+
+.no-images-text {
+    grid-column: 1 / -1; /* Make text span all columns if grid is empty */
+    text-align: center;
+    color: #777;
+    padding: 20px;
+    font-style: italic;
+}
+
+/* Ensure labels are associated with inputs correctly */
+.main-form div > label,
+.checkbox-with-label label {
+    display: block; /* Make labels block for better spacing */
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #555;
+    font-size: 14px;
+}
+
+.checkbox-with-label {
+    display: flex;
+    align-items: center; /* Vertically align checkbox and label */
+    gap: 8px; /* Space between checkbox and label text */
+    justify-content: flex-start; /* Align to the left */
+    margin-bottom: 15px; /* Spacing below checkbox group */
+}
+
+    .checkbox-with-label input[type="checkbox"] {
+        width: auto; /* Reset width from general input style */
+        margin-top: 0; /* Reset margin */
+        height: 18px; /* Consistent height */
+        flex-shrink: 0; /* Prevent checkbox from shrinking */
+    }
+
+    .checkbox-with-label label {
+        margin-bottom: 0; /* Reset bottom margin for label inside flex */
+        font-weight: normal; /* Normal weight for checkbox label */
+    }
+
+
+/* Input and Textarea styling */
+input[type="text"],
+input[type="number"], /* If PetAge is number */
+input[placeholder],
+textarea,
+select {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ccc; /* Softer border */
+    border-radius: 8px; /* More rounded corners */
+    box-sizing: border-box;
+    margin-top: 5px; /* Reduced top margin if label is above */
+    font-size: 16px;
+    color: #333;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+    input[type="text"]:focus,
+    input[type="number"]:focus,
+    input[placeholder]:focus,
+    textarea:focus,
+    select:focus {
+        border-color: #b0855b; /* Your primary color for focus */
+        box-shadow: 0 0 0 3px rgba(176, 133, 91, 0.2); /* Focus ring */
+        outline: none;
+    }
+
+textarea {
+    min-height: 100px; /* Minimum height */
+    resize: vertical; /* Allow vertical resize */
+}
+
+input[type="file"] {
+    margin-top: 5px;
+    border: 1px dashed #ccc;
+    padding: 10px;
+    border-radius: 8px;
+    background-color: #fafafa;
+}
+
+    input[type="file"]::file-selector-button { /* Style the button part of file input */
+        background-color: #b0855b;
+        color: white;
+        border: none;
+        padding: 8px 12px;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+    }
+
+        input[type="file"]::file-selector-button:hover {
+            background-color: #966f4a; /* Darker shade on hover */
+        }
+
+/* Button styling */
+.main-form button[type="submit"] {
+    display: block; /* Make button block */
+    width: 100%; /* Full width */
+    padding: 12px 20px;
+    font-size: 18px;
+    font-weight: 600;
+    color: white;
+    background-color: #b0855b; /* Primary color */
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    margin-top: 25px; /* Space above the button */
+}
+
+    .main-form button[type="submit"]:hover {
+        background-color: #966f4a; /* Darker shade */
+        box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    }
+
+/* Responsive adjustments */
+@media (max-width: 900px) { /* Adjust breakpoint as needed */
+    .page-layout-container {
+        flex-direction: column;
+        align-items: center; /* Center items when stacked */
+    }
+
+    .form-container,
+    .image-gallery-container {
+        flex-basis: auto; /* Reset flex-basis */
+        width: 100%; /* Full width when stacked */
+        max-width: 600px; /* Max width for single column layout */
+    }
+}
