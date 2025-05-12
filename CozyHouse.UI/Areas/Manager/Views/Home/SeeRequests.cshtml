@@ -8,18 +8,80 @@
 
 <h1>Adoption Requests</h1>
 <div class="request-container">
+    @foreach (ShelterAdoptionRequest request in Model)
+    {
+        <div class="request-card">
+
+            <h1 class="status">Status: Pending</h1>
+
+            <form method="post" asp-area="User" asp-controller="UserRequest" asp-action="Approve" asp-route-id="@request.Id">
+                <button type="submit" class="approve-btn">Approve</button>
+            </form>
+            <form method="post" asp-area="User" asp-controller="UserRequest" asp-action="Reject" asp-route-id="@request.Id">
+                <button type="submit" class="reject-btn">Reject</button>
+            </form>
+
+            <div class="request-details">
+                <div><span>Email:</span> <span>@request.Adopter.UserName</span></div>
+                <div><span>Phone number:</span> <span>@request.Adopter.PhoneNumber</span></div>
+                <div><span>Person name:</span> <span>@request.Adopter.PersonName</span></div>
+                <div><span>Request was made:</span> <span>@request.RequestDate</span></div>
+                <div><span>Publication title:</span> <span>@request.PetPublication.PublicationTitle</span></div>
+                <div><span>Pet Name:</span> <span>@request.PetPublication.PetName</span></div>
+            </div>
+        </div>
+    }
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@* @model IEnumerable<ShelterAdoptionRequest>
+@{
+    ViewBag.Title = "See Requests";
+}
+<link rel="stylesheet" href="~/css/Manager/adoption_requests.css" asp-append-version="true" />
+
+<partial name="_NotificationsPartial"></partial>
+
+<h1>Adoption Requests</h1>
+<div class="request-container">
     @{
         foreach (ShelterAdoptionRequest request in Model)
         {
+
+
             <div class="request-card">
-                <div>
-                    <h2>Email: @request.Adopter.UserName</h2>
-                    <h2>Phone number: @request.Adopter.PhoneNumber</h2>
-                    <h2>Person name: @request.Adopter.PersonName</h2>
-                    <h2>Request was made: @request.RequestDate</h2>
-                    <h2>Status: @request.Status</h2>
-                    <h2>Publication title: @request.PetPublication.PublicationTitle</h2>
-                    <h2>Pet Name: @request.PetPublication.PetName</h2>
+                <div class="request-details">
+                    <div><span>Email:</span> <span>@request.Adopter.UserName</span></div>
+                    <div><span>Phone number:</span> <span>@request.Adopter.PhoneNumber</span></div>
+                    <div><span>Person name:</span> <span>@request.Adopter.PersonName</span></div>
+                    <div><span>Request was made:</span> <span> @request.RequestDate</span></div>
+                    <div><span>Publication title:</span> <span>@request.PetPublication.PublicationTitle</span></div>
+                    <div><span>Pet Name:</span> <span>@request.PetPublication.PetName</span></div>
                 </div>
 
                 <form method="post" asp-area="Manager" asp-controller="Home" asp-action="Approve" asp-route-id="@request.Id">
@@ -32,4 +94,4 @@
             </div>
         }
     }
-</div>
+</div> *@

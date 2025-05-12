@@ -21,14 +21,14 @@
                 <button type="submit" class="reject-btn">Reject</button>
             </form>
 
-            
+
             <div class="request-details">
-                <div><span>Email:</span> <span>medisonrey@gmail.com</span></div>
-                <div><span>Phone number:</span> <span>00681257319</span></div>
-                <div><span>Person name:</span> <span>medison</span></div>
-                <div><span>Request was made:</span> <span>10.05.2025 10:52:37</span></div>
-                <div><span>Publication title:</span> <span>киця ларі</span></div>
-                <div><span>Pet Name:</span> <span>Ларі</span></div>
+                <div><span>Email:</span> <span>@request.Adopter.UserName</span></div>
+                <div><span>Phone number:</span> <span>@request.Adopter.PhoneNumber</span></div>
+                <div><span>Person name:</span> <span>@request.Adopter.PersonName</span></div>
+                <div><span>Request was made:</span> <span> @request.RequestDate</span></div>
+                <div><span>Publication title:</span> <span>@request.PetPublication.PublicationTitle</span></div>
+                <div><span>Pet Name:</span> <span>@request.PetPublication.PetName</span></div>
             </div>
         </div>
     }
