@@ -212,67 +212,15 @@ h2 {
         box-shadow: 0 3px 6px rgba(0,0,0,0.2);
     }
 
-.summary-box::-webkit-scrollbar,
-.description-box::-webkit-scrollbar,
-.pets-info-box::-webkit-scrollbar {
+.scrollbar-style::-webkit-scrollbar {
     width: 8px;
 }
 
-.summary-box::-webkit-scrollbar-track,
-.description-box::-webkit-scrollbar-track,
-.pets-info-box::-webkit-scrollbar-track {
+.scrollbar-style::-webkit-scrollbar-track {
     background: #f1f1f1;
     border-radius: 4px;
 }
 
-.summary-box::-webkit-scrollbar-thumb,
-.description-box::-webkit-scrollbar-thumb,
-.pets-info-box::-webkit-scrollbar-thumb {
+.scrollbar-style::-webkit-scrollbar-thumb {
     background: #F1CDB3;
-    border-radius: 4px;
-}
-
-    .summary-box::-webkit-scrollbar-thumb:hover,
-    .description-box::-webkit-scrollbar-thumb:hover,
-    .pets-info-box::-webkit-scrollbar-thumb:hover {
-        background: #b0855b;
-    }
-
-.summary-box,
-.description-box,
-.pets-info-box {
-    scrollbar-width: thin;
-    scrollbar-color: #F1CDB3 #f1f1f1;
-}
-
-@media (max-width: 768px) {
-    .content-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .header-container {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 15px;
-    }
-
-    .back-button {
-        width: 100%;
-    }
-
-    .pet-details {
-        grid-template-columns: 1fr;
-    }
-
-    .photo-navigation {
-        min-height: 150px;
-    }
-
-    .pet-photo {
-        max-height: 350px;
-    }
-
-    .description-box, .summary-box, .pets-info-box {
-        max-height: 300px;
-    }
-}
+    border-radius
