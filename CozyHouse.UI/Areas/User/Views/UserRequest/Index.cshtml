@@ -8,28 +8,29 @@
 
 <h1>Adoption Requests</h1>
 <div class="request-container">
-    @{
-        foreach (UserAdoptionRequest request in Model)
-        {
-            <div class="request-card">
-                <div>
-                    <h2>Email: @request.Adopter.UserName</h2>
-                    <h2>Phone number: @request.Adopter.PhoneNumber</h2>
-                    <h2>Person name: @request.Adopter.PersonName</h2>
-                    <h2>Request was made: @request.RequestDate</h2>
-                    <h2>Status: @request.Status</h2>
-                    <h2>Publication title: @request.PetPublication.PublicationTitle</h2>
-                    <h2>Pet Name: @request.PetPublication.PetName</h2>
-                </div>
+    @foreach (UserAdoptionRequest request in Model)
+    {
+        <div class="request-card">
+            
+            <h1 class="status">Status: Pending</h1>
 
-                <form method="post" asp-area="User" asp-controller="UserRequest" asp-action="Approve" asp-route-id="@request.Id">
-                    <button type="submit">Approve</button>
-                </form>
+            <form method="post" asp-area="User" asp-controller="UserRequest" asp-action="Approve" asp-route-id="@request.Id">
+                <button type="submit" class="approve-btn">Approve</button>
+            </form>
+            <form method="post" asp-area="User" asp-controller="UserRequest" asp-action="Reject" asp-route-id="@request.Id">
+                <button type="submit" class="reject-btn">Reject</button>
+            </form>
 
-                <form method="post" asp-area="User" asp-controller="UserRequest" asp-action="Reject" asp-route-id="@request.Id">
-                    <button type="submit">Reject</button>
-                </form>
+            
+            <div class="request-details">
+                <div><span>Email:</span> <span>medisonrey@gmail.com</span></div>
+                <div><span>Phone number:</span> <span>00681257319</span></div>
+                <div><span>Person name:</span> <span>medison</span></div>
+                <div><span>Request was made:</span> <span>10.05.2025 10:52:37</span></div>
+                <div><span>Publication title:</span> <span>киця ларі</span></div>
+                <div><span>Pet Name:</span> <span>Ларі</span></div>
             </div>
-        }
+        </div>
     }
 </div>
+
