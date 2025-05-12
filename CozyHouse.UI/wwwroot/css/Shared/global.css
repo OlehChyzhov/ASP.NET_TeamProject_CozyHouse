@@ -1,8 +1,4 @@
 ﻿/* Fonts Import */
-@font-face {
-    font-family: 'Georgia';
-    src: url(./fonts/georgia/georgia-regular.ttf);
-}
 
 @font-face {
     font-family: 'Arial-regular';
@@ -26,7 +22,7 @@
 }
 
 a {
-    font-family: Georgia;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 body {

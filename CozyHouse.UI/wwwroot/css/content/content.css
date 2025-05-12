@@ -1,4 +1,8 @@
-﻿ol, ul {
+﻿* {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+ol, ul {
     list-style: none;
 }
 
@@ -17,7 +21,6 @@ table {
 }
 
 h3 {
-    font-family: 'Georgia';
     font-size: 35px;
     line-height: 130%;
     letter-spacing: 2px;
@@ -61,7 +64,6 @@ body {
 .start-screen-content h2 {
     width: 315px;
     margin-top: 163px;
-    font-family: 'Georgia';
     font-size: 44px;
     color: #FFFFFF;
     font-weight: 300;
@@ -71,7 +73,7 @@ body {
     height: 72px;
     width: 460px;
     margin-top: 42px;
-    font-family: 'Arial-regular';
+    font-family: Arial, Helvetica, sans-serif;
     font-size: 14px;
     color: #CDCDCD;
     line-height: 160%;
@@ -83,7 +85,6 @@ body {
     height: 52px;
     border-radius: 100px;
     background-color: #F1CDB3;
-    font-family: 'Georgia';
     font-size: 17px;
     color: #292929;
 }
@@ -126,7 +127,7 @@ body {
     .about-pets-content p {
         width: 430px;
         margin-top: 25px;
-        font-family: 'Arial-regular';
+        font-family: Arial, Helvetica, sans-serif;
         font-size: 14.9px;
         color: #4C4C4C;
         line-height: 160%;
@@ -193,7 +194,6 @@ button {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-family: 'Georgia';
     font-size: 17px;
     line-height: 130%;
     height: 52px;
@@ -209,7 +209,6 @@ button {
 
 .slider h4 {
     color: #545454;
-    font-family: 'Georgia';
     font-size: 20px;
     letter-spacing: 1.2px;
 }
@@ -255,7 +254,6 @@ button {
     border-radius: 100px;
     border-radius: 50px;
     padding: 15px 45px 15px 45px;
-    font-family: 'Georgia';
 }
 
 
@@ -298,7 +296,6 @@ button {
     width: 308px;
     height: 90px;
     text-align: center;
-    font-family: 'Georgia';
     font-weight: 100;
     font-size: 33px;
     line-height: 130%;
@@ -336,7 +333,6 @@ button {
         align-items: center;
         height: 113px;
         width: 82px;
-        font-family: 'Georgia';
         font-size: 15px;
         color: #545454;
         line-height: 115%;
@@ -380,7 +376,6 @@ button {
     }
 
     .content h5 {
-        font-family: 'Georgia';
         font-size: 15px;
         line-height: 110%;
         color: #545454;
@@ -405,7 +400,6 @@ button {
         height: 23px;
         gap: 15px;
         margin-left: 15px;
-        font-family: 'Georgia';
         font-size: 17px;
         line-height: 115%;
         letter-spacing: 2.70px;
@@ -417,7 +411,7 @@ button {
     }
 
 .content p {
-    font-family: 'Arial-italic';
+    font-family: Arial, Helvetica, sans-serif;
     font-size: 12px;
     line-height: 18px;
     color: #B2B2B2;

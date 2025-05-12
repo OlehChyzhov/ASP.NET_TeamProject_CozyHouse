@@ -1,4 +1,8 @@
-﻿.request-container {
+﻿*{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.request-container {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -16,13 +20,11 @@
 }
 
 h2 {
-    font-family: 'Georgia', serif;
     color: #333;
     margin-bottom: 5px;
 }
 
 h1 {
-    font-family: 'Georgia', serif;
     color: #333;
     font-size: 36px;
     font-weight: bold;

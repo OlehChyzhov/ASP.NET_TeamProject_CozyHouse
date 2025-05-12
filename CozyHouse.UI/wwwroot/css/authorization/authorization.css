@@ -1,4 +1,8 @@
 ﻿/*LOGIN*/
+*{
+    font-family: Arial, Helvetica, sans-serif
+}
+
 body {
     margin: 0;
     padding: 0;
@@ -42,7 +46,7 @@ input {
     border-radius: 5px;
 }
 .tabs .tab {
-    font-family: 'Your Font Name', serif; 
+    font-family: Arial, Helvetica, sans-serif; 
     font-size: 20px;
     font-style: italic; 
     font-weight: 700; 
