@@ -11,8 +11,8 @@
     @foreach (UserAdoptionRequest request in Model)
     {
         <div class="request-card">
-            
-            <h1 class="status">Status: Pending</h1>
+
+            <h1 class="status">Status: @request.Status</h1>
 
             <form method="post" asp-area="User" asp-controller="UserRequest" asp-action="Approve" asp-route-id="@request.Id">
                 <button type="submit" class="approve-btn">Approve</button>
@@ -33,4 +33,3 @@
         </div>
     }
 </div>
-
