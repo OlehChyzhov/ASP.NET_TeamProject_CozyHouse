@@ -6,6 +6,38 @@
 <link rel="stylesheet" href="~/css/Shared/manage_pet_publications_page.css" asp-append-version="true" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
 
+<style>
+    /* Styling for "No Publications" Message */
+    .no-publications {
+        grid-column: 1 / -1;
+        text-align: center;
+        padding: 60px 30px;
+        background: white;
+        border-radius: 12px;
+        margin: 20px 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+        .no-publications i {
+            font-size: 64px;
+            color: #b0855b;
+            margin-bottom: 25px;
+            opacity: 0.8;
+        }
+
+        .no-publications p {
+            color: #666;
+            margin: 8px 0;
+            font-size: 16px;
+            line-height: 1.6;
+            max-width: 80%;
+        }
+
+</style>
+
 <partial name="_NotificationsPartial"></partial>
 
 <div class="page-container">
