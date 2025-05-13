@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CozyHouse.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class PostgreSQLInitial : Migration
+    public partial class Name : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -264,13 +264,13 @@ namespace CozyHouse.Infrastructure.Migrations
                         column: x => x.AdopterId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_UserAdoptionRequests_AspNetUsers_OwnerId",
                         column: x => x.OwnerId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_UserAdoptionRequests_PetPublicationBase_PetPublicationId",
                         column: x => x.PetPublicationId,
