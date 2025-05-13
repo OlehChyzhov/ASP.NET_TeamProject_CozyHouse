@@ -1,66 +1,345 @@
 ﻿@model ShelterPetPublication
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Edit Pet Publication";
     Guid userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value!);
 }
-
 <link rel="stylesheet" href="~/css/Shared/PetPublications/create_edit.css" asp-append-version="true" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
 
-<form class="top-button">
-    <button asp-area="Manager" asp-controller="PetPublication" asp-action="Index">Back</button>
-</form>
+<style>
+    /* Additional Back Button Styling */
+    .back-button {
+        display: inline-block;
+        padding: 12px 25px;
+        font-size: 16px;
+        font-weight: 600;
+        color: #b0855b;
+        border: 2px solid #b0855b;
+        border-radius: 8px;
+        background: transparent;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+    }
 
-<div class="form-container">
-    <form method="post" enctype="multipart/form-data" asp-area="Manager" asp-controller="PetPublication" asp-action="Edit" class="main-form">
-        <h1>Edit Pet Publication</h1>
+        .back-button:hover {
+            background: #b0855b;
+            color: white;
+            box-shadow: 0 5px 15px rgba(176, 133, 91, 0.4);
+            letter-spacing: 0.5px;
+        }
 
-        <h2>Publication Information</h2>
-        <div>
-            <input type="text" placeholder="Title" asp-for="PublicationTitle" />
-        </div>
-        <div>
-            <textarea placeholder="Summary" asp-for="Summary"></textarea>
-        </div>
-        <div>
-            <textarea placeholder="Description" asp-for="Description"></textarea>
-        </div>
-        <div>
-            <input placeholder="Location" asp-for="Location" />
-        </div>
+        .back-button i {
+            margin-right: 8px;
+        }
+</style>
 
-        <h2>Pet Information</h2>
-        <div>
-            <input placeholder="Pet Name" asp-for="PetName" />
-        </div>
-        <div>
-            <input placeholder="Pet Age" asp-for="PetAge" />
-        </div>
+<div class="page-container">
+    <div class="top-button">
+        <a asp-area="Manager" asp-controller="PetPublication" asp-action="Index" class="back-button">
+            <i class="fas fa-arrow-left"></i> Back to List
+        </a>
+    </div>
 
-        <div>
-            <select asp-for="PetType">
-                @{
-                    foreach (Species species in Enum.GetValues(typeof(Species)))
-                    {
-                        <option value="@species">@species.ToString()</option>
-                    }
+    <!-- Image Carousel Section -->
+    <div class="image-carousel-section">
+        <h2 class="carousel-title">Pet Images</h2>
+        <div class="image-carousel" id="imageCarousel">
+            <!-- Add Image Button - always visible -->
+            <label for="newPetImagesInput" class="add-image-button">
+                <i class="fas fa-plus"></i>
+                <span>Add Photos</span>
+            </label>
+
+            <!-- Current images will be loaded here from model -->
+            @if (Model.Images != null && Model.Images.Any())
+            {
+                foreach (var image in Model.Images)
+                {
+                    <div class="carousel-item" data-image-id="@image.Id">
+                        <img src="@image.ImageUrl" alt="Current pet image: @Model.PetName" />
+                        <button class="delete-button" title="Remove Image" onclick="markImageForDeletion('@image.Id')">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                        <!-- Hidden checkbox for deletion, will be toggled via JS -->
+                        <input type="checkbox" name="ImagesToDelete" value="@image.Id" id="deleteImage_@image.Id" class="visually-hidden delete-image-checkbox" />
+                    </div>
                 }
-            </select>
-        </div>
-        <div>
-            <input placeholder="Breed" asp-for="Breed" />
-        </div>
+            }
+            else
+            {
+                <div class="carousel-empty" id="noImagesMessage">
+                    No images available. Click + to add photos.
+                </div>
+            }
 
-        <div class="checkbox-with-label">
-            <label for="IsVaccinated">Is Vaccinated?</label>
-            <input type="checkbox" asp-for="IsVaccinated" name="IsVaccinated" />
+            <!-- New images will be added here dynamically -->
         </div>
-        <div class="checkbox-with-label">
-            <label for="IsSterilized">Is Sterilized?</label>
-            <input type="checkbox" asp-for="IsSterilized" name="IsSterilized" />
-        </div>
+    </div>
 
-        <div>
-            <button type="submit">Update</button>
-        </div>
-    </form>
+    <!-- Form Section -->
+    <div class="form-section">
+        <form method="post" enctype="multipart/form-data" asp-area="Manager" asp-controller="PetPublication" asp-action="Edit" class="main-form">
+            <input type="hidden" asp-for="Id" />
+
+            <h1>Edit Pet Publication</h1>
+
+            <!-- Hidden file input -->
+            <input type="file" name="newPetImages" id="newPetImagesInput" class="file-input" multiple onchange="handleNewImageSelection(event)" />
+
+            <h2 class="section-heading">Publication Information</h2>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label asp-for="PublicationTitle">Title</label>
+                    <input type="text" placeholder="Title" asp-for="PublicationTitle" />
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Location">Location</label>
+                    <input placeholder="Location" asp-for="Location" />
+                </div>
+
+                <div class="form-group full-width">
+                    <label asp-for="Summary">Summary</label>
+                    <textarea placeholder="Summary" asp-for="Summary"></textarea>
+                </div>
+
+                <div class="form-group full-width">
+                    <label asp-for="Description">Description</label>
+                    <textarea placeholder="Description" asp-for="Description"></textarea>
+                </div>
+            </div>
+
+            <h2 class="section-heading">Pet Information</h2>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label asp-for="PetName">Pet Name</label>
+                    <input placeholder="Pet Name" asp-for="PetName" />
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="PetAge">Pet Age</label>
+                    <input type="number" placeholder="Pet Age" asp-for="PetAge" />
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="PetType">Pet Type:</label>
+                    <select asp-for="PetType">
+                        @{
+                            foreach (Species species in Enum.GetValues(typeof(Species)))
+                            {
+                                <option value="@species" selected="@(Model.PetType == species)">@species.ToString()</option>
+                            }
+                        }
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Breed">Breed</label>
+                    <input placeholder="Breed" asp-for="Breed" />
+                </div>
+
+                <div class="form-group">
+                    <div class="checkbox-group">
+                        <input type="checkbox" asp-for="IsVaccinated" id="IsVaccinatedEdit" />
+                        <label for="IsVaccinatedEdit">Is Vaccinated?</label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="checkbox-group">
+                        <input type="checkbox" asp-for="IsSterilized" id="IsSterilizedEdit" />
+                        <label for="IsSterilizedEdit">Is Sterilized?</label>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="submit-button">Update Publication</button>
+        </form>
+    </div>
 </div>
+
+@section Scripts {
+    <script>
+        // Track newly selected files
+        let newSelectedFiles = [];
+
+        // Track which existing images are marked for deletion
+        let imagesMarkedForDeletion = new Set();
+
+        function handleNewImageSelection(event) {
+            const carousel = document.getElementById('imageCarousel');
+            const noImagesMessage = document.getElementById('noImagesMessage');
+            const files = event.target.files;
+            const addButton = carousel.querySelector('.add-image-button');
+
+            // Add to existing selected files instead of replacing
+            const additionalFiles = Array.from(files);
+            newSelectedFiles = [...newSelectedFiles, ...additionalFiles];
+
+            // Remove the empty message if it exists
+            if (noImagesMessage) {
+                noImagesMessage.remove();
+            }
+
+            if (files && files.length > 0) {
+                // Add each new image to the carousel
+                Array.from(files).forEach((file) => {
+                    if (file.type.startsWith('image/')) {
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            // Create carousel item
+                            const carouselItem = document.createElement('div');
+                            carouselItem.classList.add('carousel-item', 'new-image');
+                            carouselItem.dataset.newIndex = newSelectedFiles.indexOf(file);
+
+                            // Create image
+                            const img = document.createElement('img');
+                            img.src = e.target.result;
+                            img.alt = file.name;
+
+                            // Create delete button
+                            const deleteBtn = document.createElement('button');
+                            deleteBtn.classList.add('delete-button');
+                            deleteBtn.innerHTML = '<i class="fas fa-trash-alt"></i>';
+                            deleteBtn.title = 'Remove Image';
+                            deleteBtn.onclick = function(e) {
+                                e.preventDefault();
+                                removeNewImage(newSelectedFiles.indexOf(file));
+                            };
+
+                            // Add elements to carousel item
+                            carouselItem.appendChild(img);
+                            carouselItem.appendChild(deleteBtn);
+
+                            // Insert before add button
+                            carousel.insertBefore(carouselItem, addButton);
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                });
+            }
+        }
+
+        function removeNewImage(index) {
+            // Find the carousel item with the matching index
+            const carousel = document.getElementById('imageCarousel');
+            const item = carousel.querySelector(`.carousel-item[data-new-index="${index}"]`);
+
+            if (item) {
+                // Add deleting animation
+                item.classList.add('deleting');
+
+                // Remove the item after animation completes
+                setTimeout(() => {
+                    item.remove();
+
+                    // If no images left at all, show empty message
+                    const allImageItems = carousel.querySelectorAll('.carousel-item');
+                    const addButton = carousel.querySelector('.add-image-button');
+
+                    if (allImageItems.length === 0) {
+                        const newEmptyMessage = document.createElement('div');
+                        newEmptyMessage.id = 'noImagesMessage';
+                        newEmptyMessage.classList.add('carousel-empty');
+                        newEmptyMessage.innerText = 'No images available. Click + to add photos.';
+                        carousel.insertBefore(newEmptyMessage, addButton);
+                    }
+
+                    // Update file input
+                    updateNewFileInput();
+                }, 500);
+
+                // Remove the file from newSelectedFiles
+                newSelectedFiles.splice(index, 1);
+
+                // Update data-new-index attributes for all new carousel items
+                const newItems = carousel.querySelectorAll('.carousel-item[data-new-index]');
+                newItems.forEach((newItem, i) => {
+                    if (parseInt(newItem.dataset.newIndex) > index) {
+                        newItem.dataset.newIndex = parseInt(newItem.dataset.newIndex) - 1;
+                    }
+                });
+            }
+        }
+
+        function markImageForDeletion(imageId) {
+            const checkbox = document.getElementById(`deleteImage_${imageId}`);
+            const carouselItem = document.querySelector(`.carousel-item[data-image-id="${imageId}"]`);
+
+            if (checkbox && carouselItem) {
+                // Toggle the checkbox
+                checkbox.checked = !checkbox.checked;
+
+                if (checkbox.checked) {
+                    // Mark for deletion
+                    carouselItem.classList.add('marked-for-deletion');
+                    imagesMarkedForDeletion.add(imageId);
+
+                    // Add deleting animation and remove from view
+                    carouselItem.classList.add('deleting');
+                    setTimeout(() => {
+                        carouselItem.style.display = 'none';
+
+                        // Check if all images are now hidden
+                        checkForEmptyCarousel();
+                    }, 500);
+                } else {
+                    // Unmark
+                    carouselItem.classList.remove('marked-for-deletion');
+                    imagesMarkedForDeletion.delete(imageId);
+                }
+            }
+        }
+
+        function checkForEmptyCarousel() {
+            const carousel = document.getElementById('imageCarousel');
+            const addButton = carousel.querySelector('.add-image-button');
+            const visibleItems = Array.from(carousel.querySelectorAll('.carousel-item')).filter(
+                item => item.style.display !== 'none'
+            );
+            const newItems = carousel.querySelectorAll('.carousel-item[data-new-index]');
+
+            // If no visible items and no new items, show empty message
+            if (visibleItems.length === 0 && newItems.length === 0) {
+                if (!carousel.querySelector('#noImagesMessage')) {
+                    const noImagesMessage = document.createElement('div');
+                    noImagesMessage.id = 'noImagesMessage';
+                    noImagesMessage.classList.add('carousel-empty');
+                    noImagesMessage.innerText = 'No images available. Click + to add photos.';
+                    carousel.insertBefore(noImagesMessage, addButton);
+                }
+            }
+        }
+
+        function updateNewFileInput() {
+            // Create a new FileList from the remaining selected files
+            const dataTransfer = new DataTransfer();
+            newSelectedFiles.forEach(file => {
+                dataTransfer.items.add(file);
+            });
+
+            // Update the file input with the new FileList
+            const input = document.getElementById('newPetImagesInput');
+            input.files = dataTransfer.files;
+        }
+
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', function() {
+            const carousel = document.getElementById('imageCarousel');
+            const existingItems = carousel.querySelectorAll('.carousel-item[data-image-id]');
+
+            // Check if there are no images and show empty message if needed
+            if (existingItems.length === 0 && !carousel.querySelector('#noImagesMessage')) {
+                const addButton = carousel.querySelector('.add-image-button');
+
+                const noImagesMessage = document.createElement('div');
+                noImagesMessage.id = 'noImagesMessage';
+                noImagesMessage.classList.add('carousel-empty');
+                noImagesMessage.innerText = 'No images available. Click + to add photos.';
+
+                carousel.insertBefore(noImagesMessage, addButton);
+            }
+        });
+    </script>
+}

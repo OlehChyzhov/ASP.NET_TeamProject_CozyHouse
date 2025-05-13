@@ -1,4 +1,8 @@
-﻿.request-container {
+﻿*{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.request-container {
     display: flex; 
     flex-wrap: wrap; 
     justify-content: center; 
@@ -23,16 +27,7 @@
     justify-content: flex-start; 
 }
 
-    
-    .request-card div {
-        margin-top: 0; 
-    }
-
-
-.status {
-    font-family: 'Georgia', serif;
-    font-size: 24px; 
-    font-weight: normal; 
+h2 {
     color: #333;
     text-align: center;
     margin-bottom: 15px; 
@@ -40,12 +35,11 @@
 
 
 h1 {
-    font-family: 'Georgia', serif; 
-    color: #333; 
-    font-size: 36px; 
-    font-weight: bold; 
-    text-align: center; 
-    margin-bottom: 20px; 
+    color: #333;
+    font-size: 36px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 20px;
 }
 
 h2 {

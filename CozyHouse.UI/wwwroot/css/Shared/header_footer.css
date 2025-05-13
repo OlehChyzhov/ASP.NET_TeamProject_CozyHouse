@@ -1,4 +1,8 @@
 /*HEADER CONFIGURATIONS*/
+*{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
 header {
     display: flex;
     justify-content: space-between;
@@ -22,7 +26,6 @@ header {
 
 .logo h1 {
     color: #F1CDB3;
-    font-family: 'Georgia', serif;
     font-size: 32px;
     line-height: 110%;
     letter-spacing: 2px;
@@ -95,7 +98,6 @@ footer {
     display: flex;
     align-items: center;
     color: #F1CDB3;
-    font-family: 'Georgia';
     font-size: 20px;
     line-height: 115%;
     letter-spacing: 1.2px;
@@ -104,7 +106,6 @@ footer {
 
 .footer-content h2 {
     color: #FFFFFF;
-    font-family: 'Georgia';
     font-size: 35px;
     line-height: 130%;
     letter-spacing: 1.2px;

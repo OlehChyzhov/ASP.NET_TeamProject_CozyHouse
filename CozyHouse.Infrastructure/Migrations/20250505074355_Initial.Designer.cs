@@ -12,8 +12,13 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CozyHouse.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
+<<<<<<<< HEAD:CozyHouse.Infrastructure/Migrations/20250505074355_Initial.Designer.cs
     [Migration("20250505074355_Initial")]
     partial class Initial
+========
+    [Migration("20250509183253_Seсrets")]
+    partial class Seсrets
+>>>>>>>> NewUIPageLiliia:CozyHouse.Infrastructure/Migrations/20250509183253_Seсrets.Designer.cs
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

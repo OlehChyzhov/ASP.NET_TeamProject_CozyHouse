@@ -1,5 +1,8 @@
-﻿body {
-    font-family: "Georgia", serif;
+﻿* {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
     background-color: white;
     text-align: center;
 }

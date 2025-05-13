@@ -7,7 +7,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CozyHouse.Infrastructure.Migrations
 {
     /// <inheritdoc />
+<<<<<<<< HEAD:CozyHouse.Infrastructure/Migrations/20250505074355_Initial.cs
     public partial class Initial : Migration
+========
+    public partial class Seсrets : Migration
+>>>>>>>> NewUIPageLiliia:CozyHouse.Infrastructure/Migrations/20250509183253_Seсrets.cs
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
