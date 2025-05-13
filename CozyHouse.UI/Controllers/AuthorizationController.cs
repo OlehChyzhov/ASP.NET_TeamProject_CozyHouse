@@ -2,6 +2,7 @@
 using CozyHouse.Core.Helpers;
 using CozyHouse.Core.ServiceContracts;
 using CozyHouse.UI.Models.DTO;
+using CozyHouse.UI.Models.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -40,9 +41,12 @@ namespace CozyHouse.UI.Areas.Guest.Controllers
             IdentityResult result = await _authorizationService.RegisterWithRoleAsync(user, data.Password, "User");
             if (result.Succeeded == true)
             {
+                Notificator.CreateNotification(this, "Registration successful", "success");
                 await _authorizationService.LoginAsync(user.UserName, data.Password);
                 return RedirectToAction("Index", "Home", new { area = "User" });
             }
+
+            Notificator.CreateNotification(this, "Registration failure", "warning");
             return RedirectToAction("Index", data);
         }
 
@@ -50,8 +54,13 @@ namespace CozyHouse.UI.Areas.Guest.Controllers
         public async Task<IActionResult> LoginCommand(LoginDTO data)
         {
             ExtendedSignInResult result = await _authorizationService.LoginAsync(data.UserEmail, data.UserPassword);
-            if (result.Result.Succeeded == false) return RedirectToAction("Index", data);
+            if (result.Result.Succeeded == false)
+            {
+                Notificator.CreateNotification(this, "Either email or password is not correct", "warning");
+                return RedirectToAction("Login", data);
+            }
 
+            Notificator.CreateNotification(this, "Sign in successful", "success");
             if (User.IsInRole("User")) return RedirectToAction("Index", "Home", new { area = "User" });
             else return RedirectToAction("Index", "Home", new { area = "Manager" });
         }
