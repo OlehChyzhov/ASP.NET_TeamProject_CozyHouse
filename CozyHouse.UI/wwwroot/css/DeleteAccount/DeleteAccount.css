@@ -3,54 +3,181 @@
 }
 
 body {
-    background-color: white;
+    font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, Oxygen, Ubuntu, sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+}
+
+.delete-account-container {
+    max-width: 550px;
+    margin: 40px auto;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
     text-align: center;
 }
 
 h1 {
-    color: #000; /* Чорний колір */
-    font-size: 32px; /* Ще трохи більший шрифт */
-    font-weight: bold;
-    margin-top: 25px; /* Трохи вище */
+    font-size: 24px;
+    font-weight: 600;
+    margin: 10px 0;
+    color: #e53e3e;
+    padding: 0 20px;
 }
 
-.container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 20px;
+.warning-text {
+    color: #656565;
+    font-size: 15px;
+    margin-bottom: 25px;
+    padding: 0 30px;
 }
 
-.user-info {
-    background-color: #f3e7d3; /* Бежевий тон */
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    text-align: left;
-    width: 250px;
+.warning-icon {
+    margin: 25px auto 15px;
+    color: #e53e3e;
 }
 
-form {
-    background-color: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 15px rgba(0,0,0,0.1);
-    width: 300px;
-    margin: auto;
-}
-
-button {
-    background-color: transparent; /* Прозорий фон */
-    color: #d8b793; /* Колір тексту бежевий */
-    padding: 12px 25px;
-    border: 2px solid #d8b793; /* Бежевий бордер */
+.account-info-container {
+    background-color: #f8f9fa;
+    border: 1px solid #e9ecef;
     border-radius: 8px;
-    font-size: 14px;
-    cursor: pointer;
-    transition: background 0.3s, color 0.3s; /* Плавна зміна кольору */
+    margin: 20px 25px;
+    padding: 15px;
+    text-align: left;
 }
 
-    button:hover {
-        background-color: #d8b793; /* Бежевий фон при наведенні */
-        color: white; /* Білий текст при наведенні */
+    .account-info-container h3 {
+        font-size: 17px;
+        margin-top: 0;
+        margin-bottom: 15px;
+        color: #333;
+        font-weight: 500;
     }
+
+.account-info {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+}
+
+    .info-row:last-child {
+        border-bottom: none;
+    }
+
+.info-label {
+    color: #777;
+    font-size: 14px;
+}
+
+.info-value {
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.delete-form {
+    padding: 0 25px 25px;
+}
+
+.confirmation-container {
+    background-color: #fff9eb;
+    border: 1px solid #ffebc8;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 25px;
+}
+
+.confirmation-input label {
+    display: block;
+    font-size: 14px;
+    color: #6b584c;
+    margin-bottom: 10px;
+    text-align: left;
+}
+
+.confirmation-input input {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    font-size: 15px;
+    box-sizing: border-box;
+}
+
+    .confirmation-input input:focus {
+        border-color: #d3d3d3;
+        outline: none;
+        box-shadow: 0 0 0 2px rgba(229, 62, 62, 0.1);
+    }
+
+.buttons-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.delete-button {
+    background-color: transparent;
+    color: #e53e3e;
+    border: 2px solid #e53e3e;
+    border-radius: 6px;
+    padding: 12px;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+    .delete-button:hover:not(:disabled) {
+        background-color: #e53e3e;
+        color: white;
+    }
+
+    .delete-button:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+
+    .delete-button.active {
+        background-color: #e53e3e;
+        color: white;
+    }
+
+.cancel-button {
+    background-color: #f3f4f6;
+    color: #4b5563;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    padding: 12px;
+    font-size: 15px;
+    font-weight: 500;
+    text-decoration: none;
+    display: block;
+    text-align: center;
+    transition: all 0.2s ease;
+}
+
+    .cancel-button:hover {
+        background-color: #e5e7eb;
+    }
+
+@media (max-width: 600px) {
+    .delete-account-container {
+        margin: 20px 15px;
+        border-radius: 8px;
+    }
+
+    h1 {
+        font-size: 22px;
+    }
+}
