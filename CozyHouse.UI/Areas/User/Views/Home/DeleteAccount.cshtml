@@ -2,24 +2,66 @@
 @{
     ViewBag.Title = "Delete Account";
 }
-
 <link rel="stylesheet" href="~/css/DeleteAccount/DeleteAccount.css" />
 
+<div class="delete-account-container">
+    <div class="warning-icon">
+        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+    </div>
 
+    <h1>Are you sure you want to delete your account?</h1>
+    <p class="warning-text">This action is irreversible. All your data will be permanently deleted.</p>
 
+    <div class="account-info-container">
+        <h3>Account Information</h3>
+        <div class="account-info">
+            <div class="info-row">
+                <span class="info-label">Email:</span>
+                <span class="info-value">@Model.UserName</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Phone Number:</span>
+                <span class="info-value">@Model.PhoneNumber</span>
+            </div>
+        </div>
+    </div>
 
+    <form method="post" asp-area="User" asp-controller="Home" asp-action="DeleteAccount" class="delete-form">
+        <input asp-for="Id" hidden />
+        <input asp-for="Email" hidden />
+        <input asp-for="PhoneNumber" hidden />
+        <input asp-for="UserName" hidden />
 
-<h1>Are you sure you want to delete your account?</h1>
+        <div class="confirmation-container">
+            <div class="confirmation-input">
+                <label for="confirmDelete">Type "DELETE" to confirm:</label>
+                <input type="text" id="confirmDelete" name="confirmDelete" placeholder="DELETE" required />
+            </div>
+        </div>
 
-<form method="post" asp-area="User" asp-controller="Home" asp-action="DeleteAccount">
-    <input asp-for="Id" hidden />
-    <input asp-for="Email" hidden />
-    <input asp-for="PhoneNumber" hidden />
-    <input asp-for="UserName" hidden />
+        <div class="buttons-container">
+            <button type="submit" class="delete-button">Delete Account</button>
+            <a href="@Url.Action("Index", "Home")" class="cancel-button">Cancel</a>
+        </div>
+    </form>
+</div>
 
-    <h3>Login: @Model.UserName</h3>
-    <h3>Email: @Model.Email</h3>
-    <h3>Phone Number: @Model.PhoneNumber</h3>
-    <button type="submit">Delete</button>
-</form>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const confirmInput = document.getElementById('confirmDelete');
+        const deleteButton = document.querySelector('.delete-button');
 
+        confirmInput.addEventListener('input', function() {
+            deleteButton.disabled = this.value !== 'DELETE';
+            if (this.value === 'DELETE') {
+                deleteButton.classList.add('active');
+            } else {
+                deleteButton.classList.remove('active');
+            }
+        });
+
+        deleteButton.disabled = true;
+    });
+</script>
