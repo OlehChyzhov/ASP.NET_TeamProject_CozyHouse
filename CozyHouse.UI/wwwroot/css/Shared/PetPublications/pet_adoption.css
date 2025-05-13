@@ -2,6 +2,7 @@
     max-width: 1200px;
     margin: 20px auto;
     padding: 20px;
+    font-size: 18px; 
 }
 
 .header-container {
@@ -34,7 +35,7 @@
 
 h1 {
     color: #333;
-    font-size: 28px;
+    font-size: 32px; 
 }
 
 .content-grid {
@@ -42,12 +43,14 @@ h1 {
     grid-template-columns: 1fr 1fr;
     gap: 30px;
     margin-bottom: 40px;
+    height: 650px;
 }
 
 .photo-section, .info-section {
     display: flex;
     flex-direction: column;
     gap: 20px;
+    height: 100%;
 }
 
 .photo-navigation {
@@ -57,10 +60,10 @@ h1 {
     padding: 15px;
     display: flex;
     align-items: center;
-    min-height: 200px;
     max-height: 500px;
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     background-color: white;
+    flex-grow: 1;
 }
 
 .photo-container {
@@ -106,10 +109,22 @@ h1 {
     padding: 20px;
     background-color: white;
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    height: auto;
+    height: 200px;
     display: flex;
     flex-direction: column;
+    overflow-y: auto;
+    padding-right: 25px;
 }
+
+    .summary-box p,
+    .description-box p,
+    .pets-info-box p,
+    .pet-details span,
+    .pet-details div {
+        font-size: 18px; 
+        line-height: 1.5;
+
+    }
 
 .pets-info-box {
     border: 2px solid #F1CDB3;
@@ -117,11 +132,13 @@ h1 {
     padding: 20px;
     background-color: white;
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    height: auto;
+    height: 160px;
     display: flex;
     flex-direction: column;
     align-self: flex-start;
     width: 100%;
+    overflow-y: auto;
+    padding-right: 25px;
 }
 
 .pet-details {
@@ -134,6 +151,7 @@ h1 {
 
     .pet-details p {
         margin-bottom: 10px;
+        font-size: 18px; 
     }
 
 .info-section {
@@ -141,10 +159,11 @@ h1 {
     flex-direction: column;
     gap: 20px;
     align-items: stretch;
+    height: 100%;
 }
 
     .info-section > div {
-        height: auto;
+        flex: 1;
         min-height: initial;
     }
 
@@ -154,7 +173,7 @@ h2 {
     margin-bottom: 15px;
     border-bottom: 1px solid #eee;
     padding-bottom: 8px;
-    font-size: 22px;
+    font-size: 26px;
 }
 
 .description-box {
@@ -163,10 +182,12 @@ h2 {
     padding: 20px;
     background-color: white;
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    height: auto;
+    height: 160px;
     display: flex;
     flex-direction: column;
     margin-bottom: auto;
+    overflow-y: auto;
+    padding-right: 25px;
 }
 
 .adopt-section {
@@ -181,7 +202,7 @@ h2 {
     color: white;
     border: none;
     border-radius: 30px;
-    font-size: 18px;
+    font-size: 20px; 
     font-weight: bold;
     cursor: pointer;
     transition: all 0.3s;
@@ -199,9 +220,38 @@ h2 {
         box-shadow: 0 3px 6px rgba(0,0,0,0.2);
     }
 
+.summary-box::-webkit-scrollbar,
+.description-box::-webkit-scrollbar,
+.pets-info-box::-webkit-scrollbar {
+    width: 6px;
+}
+
+.summary-box::-webkit-scrollbar-track,
+.description-box::-webkit-scrollbar-track,
+.pets-info-box::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+    margin: 10px 0;
+}
+
+.summary-box::-webkit-scrollbar-thumb,
+.description-box::-webkit-scrollbar-thumb,
+.pets-info-box::-webkit-scrollbar-thumb {
+    background: #F1CDB3;
+    border-radius: 10px;
+    max-height: 80%;
+}
+
+    .summary-box::-webkit-scrollbar-thumb:hover,
+    .description-box::-webkit-scrollbar-thumb:hover,
+    .pets-info-box::-webkit-scrollbar-thumb:hover {
+        background: #b0855b;
+    }
+
 @media (max-width: 768px) {
     .content-grid {
         grid-template-columns: 1fr;
+        height: auto;
     }
 
     .header-container {
@@ -224,5 +274,11 @@ h2 {
 
     .pet-photo {
         max-height: 350px;
+    }
+
+    .summary-box,
+    .description-box,
+    .pets-info-box {
+        height: 180px;
     }
 }
