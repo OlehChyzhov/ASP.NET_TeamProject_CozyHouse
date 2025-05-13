@@ -4,68 +4,283 @@
     ViewBag.Title = "Create";
 }
 <link rel="stylesheet" href="~/css/Shared/PetPublications/create_edit.css" asp-append-version="true" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
 
-<form class="top-button">
-    <button asp-area="User" asp-controller="UserPublicationsManage" asp-action="Index">Back</button>
-</form>
+<style>
+    /* Additional Back Button Styling */
+    .back-button {
+        display: inline-block;
+        padding: 12px 25px;
+        font-size: 16px;
+        font-weight: 600;
+        color: #b0855b;
+        border: 2px solid #b0855b;
+        border-radius: 8px;
+        background: transparent;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+    }
 
-<div class="form-container">
-    <form method="post" enctype="multipart/form-data" asp-area="User" asp-controller="UserPublicationsManage" asp-action="Create" class="main-form">
-        <input asp-for="OwnerId" value="@User.GetUserId()" hidden />
-        <h1>New Pet Publication</h1>
+        .back-button:hover {
+            background: #b0855b;
+            color: white;
+            box-shadow: 0 5px 15px rgba(176, 133, 91, 0.4);
+            letter-spacing: 0.5px;
+        }
 
-        <h2>Publication Information</h2>
-        <div>
-            <input type="text" placeholder="Title" asp-for="PublicationTitle" />
-        </div>
-        <div>
-            <textarea placeholder="Summary" asp-for="Summary"></textarea>
-        </div>
-        <div>
-            <textarea placeholder="Description" asp-for="Description"></textarea>
-        </div>
-        <div>
-            <input placeholder="Location" asp-for="Location" />
-        </div>
+        .back-button i {
+            margin-right: 8px;
+        }
+</style>
 
-        <h2>Pet Information</h2>
-        <div>
-            <input placeholder="Pet Name" asp-for="PetName" />
-        </div>
-        <div>
-            <input placeholder="Pet Age" asp-for="PetAge" />
-        </div>
+<div class="page-container">
+    <div class="top-button">
+        <a asp-area="User" asp-controller="UserPublicationsManage" asp-action="Index" class="back-button">
+            <i class="fas fa-arrow-left"></i> Back to List
+        </a>
+    </div>
 
-        <div>
-            <select asp-for="PetType">
-                @{
-                    foreach (Species species in Enum.GetValues(typeof(Species)))
-                    {
-                        <option value="@species">@species.ToString()</option>
+    <!-- Image Carousel Section -->
+    <div class="image-carousel-section">
+        <h2 class="carousel-title">Pet Images</h2>
+        <div class="image-carousel" id="imageCarousel">
+            <!-- Add Image Button - always visible -->
+            <label for="petImagesInput" class="add-image-button">
+                <i class="fas fa-plus"></i>
+                <span>Add Photos</span>
+            </label>
+
+            <!-- Empty state message - shown when no images are selected -->
+            <div class="carousel-empty" id="noImagesMessage">
+                No images selected yet. Click + to add photos.
+            </div>
+
+            <!-- Images will be dynamically added here by JavaScript -->
+        </div>
+    </div>
+
+    <!-- Form Section -->
+    <div class="form-section">
+        <form method="post" enctype="multipart/form-data" asp-area="User" asp-controller="UserPublicationsManage" asp-action="Create" class="main-form">
+            <input asp-for="OwnerId" value="@User.GetUserId()" hidden />
+
+            <h1>New Pet Publication</h1>
+
+            <!-- Hidden file input -->
+            <input type="file" name="petImages" id="petImagesInput" class="file-input" multiple required onchange="handleImageSelection(event)" />
+
+            <h2 class="section-heading">Publication Information</h2>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label asp-for="PublicationTitle">Title</label>
+                    <input type="text" placeholder="Title" asp-for="PublicationTitle" />
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Location">Location</label>
+                    <input placeholder="Location" asp-for="Location" />
+                </div>
+
+                <div class="form-group full-width">
+                    <label asp-for="Summary">Summary</label>
+                    <textarea placeholder="Summary" asp-for="Summary"></textarea>
+                </div>
+
+                <div class="form-group full-width">
+                    <label asp-for="Description">Description</label>
+                    <textarea placeholder="Description" asp-for="Description"></textarea>
+                </div>
+            </div>
+
+            <h2 class="section-heading">Pet Information</h2>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label asp-for="PetName">Pet Name</label>
+                    <input placeholder="Pet Name" asp-for="PetName" />
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="PetAge">Pet Age</label>
+                    <input type="number" placeholder="Pet Age" asp-for="PetAge" />
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="PetType">Pet Type:</label>
+                    <select asp-for="PetType">
+                        @{
+                            foreach (Species species in Enum.GetValues(typeof(Species)))
+                            {
+                                <option value="@species">@species.ToString()</option>
+                            }
+                        }
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Breed">Breed</label>
+                    <input placeholder="Breed" asp-for="Breed" />
+                </div>
+
+                <div class="form-group">
+                    <div class="checkbox-group">
+                        <input type="checkbox" asp-for="IsVaccinated" id="IsVaccinatedCreate" />
+                        <label for="IsVaccinatedCreate">Is Vaccinated?</label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="checkbox-group">
+                        <input type="checkbox" asp-for="IsSterilized" id="IsSterilizedCreate" />
+                        <label for="IsSterilizedCreate">Is Sterilized?</label>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="submit-button">Create Publication</button>
+        </form>
+    </div>
+</div>
+
+<!-- JavaScript code moved from section to directly in the page -->
+<script>
+    let selectedFiles = [];
+
+    function handleImageSelection(event) {
+        const carousel = document.getElementById('imageCarousel');
+        const noImagesMessage = document.getElementById('noImagesMessage');
+        const files = event.target.files;
+
+        // Get additional files - keeping existing ones
+        const additionalFiles = Array.from(files);
+        selectedFiles = [...selectedFiles, ...additionalFiles];
+
+        // Hide the empty state message
+        if (noImagesMessage) {
+            noImagesMessage.style.display = 'none';
+            if (carousel.contains(noImagesMessage)) {
+                carousel.removeChild(noImagesMessage);
+            }
+        }
+
+        // Get the add button, but don't clear the carousel
+        const addButton = carousel.querySelector('.add-image-button');
+
+        if (files && files.length > 0) {
+            // Add each new image to the carousel
+            Array.from(files).forEach((file, index) => {
+                if (file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        // Create carousel item
+                        const carouselItem = document.createElement('div');
+                        carouselItem.classList.add('carousel-item', 'new-image');
+                        carouselItem.dataset.index = selectedFiles.indexOf(file); // Use global index
+
+                        // Create image
+                        const img = document.createElement('img');
+                        img.src = e.target.result;
+                        img.alt = file.name;
+
+                        // Create delete button
+                        const deleteBtn = document.createElement('button');
+                        deleteBtn.classList.add('delete-button');
+                        deleteBtn.innerHTML = '<i class="fas fa-trash-alt"></i>';
+                        deleteBtn.title = 'Remove Image';
+                        deleteBtn.onclick = function(e) {
+                            e.preventDefault();
+                            removeImage(selectedFiles.indexOf(file));
+                        };
+
+                        // Add elements to carousel item
+                        carouselItem.appendChild(img);
+                        carouselItem.appendChild(deleteBtn);
+
+                        // Insert before add button
+                        carousel.insertBefore(carouselItem, addButton);
+                    };
+
+                    reader.readAsDataURL(file);
+                }
+            });
+        } else if (selectedFiles.length === 0) {
+            // Show the empty state message if no files at all
+            if (!carousel.querySelector('.carousel-empty')) {
+                const newEmptyMessage = document.createElement('div');
+                newEmptyMessage.id = 'noImagesMessage';
+                newEmptyMessage.classList.add('carousel-empty');
+                newEmptyMessage.innerText = 'No images selected yet. Click + to add photos.';
+                carousel.insertBefore(newEmptyMessage, addButton);
+            }
+        }
+    }
+
+    function removeImage(index) {
+        // Find the carousel item with the matching index
+        const carousel = document.getElementById('imageCarousel');
+        const item = carousel.querySelector(`.carousel-item[data-index="${index}"]`);
+
+        if (item) {
+            // Add deleting animation
+            item.classList.add('deleting');
+
+            // Remove the item after animation completes
+            setTimeout(() => {
+                item.remove();
+
+                // If no images left, show empty message
+                const imageItems = carousel.querySelectorAll('.carousel-item');
+                if (imageItems.length === 0) {
+                    const noImagesMessage = document.getElementById('noImagesMessage');
+                    if (noImagesMessage) {
+                        noImagesMessage.style.display = 'flex';
+                        carousel.appendChild(noImagesMessage);
+                    } else {
+                        const newEmptyMessage = document.createElement('div');
+                        newEmptyMessage.id = 'noImagesMessage';
+                        newEmptyMessage.classList.add('carousel-empty');
+                        newEmptyMessage.innerText = 'No images selected yet. Click + to add photos.';
+                        carousel.appendChild(newEmptyMessage);
                     }
                 }
-            </select>
-        </div>
-        <div>
-            <input placeholder="Breed" asp-for="Breed" />
-        </div>
 
-        <div class="checkbox-with-label">
-            <label for="IsVaccinated">Is Vaccinated?</label>
-            <input type="checkbox" asp-for="IsVaccinated" name="IsVaccinated" />
-        </div>
-        <div class="checkbox-with-label">
-            <label for="IsSterilized">Is Sterilized?</label>
-            <input type="checkbox" asp-for="IsSterilized" name="IsSterilized" />
-        </div>
+                // Update file input
+                updateFileInput();
+            }, 500);
 
-        <div>
-            <label>Select pet image:</label>
-            <input type="file" name="petImages" multiple required />
-        </div>
+            // Remove the file from selectedFiles
+            selectedFiles.splice(index, 1);
 
-        <div>
-            <button type="submit">Create</button>
-        </div>
-    </form>
-</div>
+            // Update data-index attributes for all carousel items
+            const items = carousel.querySelectorAll('.carousel-item');
+            items.forEach((item, i) => {
+                if (i >= index) {
+                    item.dataset.index = i;
+                }
+            });
+        }
+    }
+
+    function updateFileInput() {
+        // Create a new FileList from the remaining selected files
+        const dataTransfer = new DataTransfer();
+        selectedFiles.forEach(file => {
+            dataTransfer.items.add(file);
+        });
+
+        // Update the file input with the new FileList
+        const input = document.getElementById('petImagesInput');
+        input.files = dataTransfer.files;
+    }
+
+    // Initialize on load
+    document.addEventListener('DOMContentLoaded', function() {
+        const carousel = document.getElementById('imageCarousel');
+        const noImagesMessage = document.getElementById('noImagesMessage');
+
+        // Make sure the empty message is displayed at start
+        if (noImagesMessage) {
+            noImagesMessage.style.display = 'flex';
+        }
+    });
+</script>

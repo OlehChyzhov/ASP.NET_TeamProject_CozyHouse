@@ -4,37 +4,148 @@
 }
 <link rel="stylesheet" href="~/css/Shared/PetPublications/pets_cards_for_profile.css" asp-append-version="true" />
 <link rel="stylesheet" href="~/css/Shared/manage_pet_publications_page.css" asp-append-version="true" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+
+<style>
+    /* Styling for "No Publications" Message */
+    .no-publications {
+        grid-column: 1 / -1;
+        text-align: center;
+        padding: 60px 30px;
+        background: white;
+        margin: 20px 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+        .no-publications i {
+            font-size: 64px;
+            color: #b0855b;
+            margin-bottom: 25px;
+            opacity: 0.8;
+        }
+
+        .no-publications p {
+            color: #666;
+            margin: 8px 0;
+            font-size: 16px;
+            line-height: 1.6;
+            max-width: 80%;
+        }
+</style>
 
 <partial name="_NotificationsPartial"></partial>
 
-<div class="header-container">
-    <h1>Manage Your Publications</h1>
-    <a asp-area="User" asp-controller="UserPublicationsManage" asp-action="Create" class="add-publication-button">Create New Listing</a>
+<div class="page-container">
+    <div class="header-container">
+        <h1>Manage Your Publications</h1>
+        <a asp-area="User" asp-controller="UserPublicationsManage" asp-action="Create" class="add-publication-button">
+            <i class="fas fa-plus"></i> Create New Listing
+        </a>
+    </div>
+
+    <div class="card-container">
+        @if (Model != null && Model.Any())
+        {
+            foreach (UserPetPublication publication in Model)
+            {
+                <div class="publication">
+                    <div class="top-part">
+                        <h2>@publication.PetType</h2>
+                        <h1>@publication.PublicationTitle</h1>
+                    </div>
+                    <div class="middle-part">
+                        @if (publication.Images != null && publication.Images.Any())
+                        {
+                            <div class="publication-image">
+                                <img src="@publication.Images[0].ImageUrl" alt="@publication.PetName" />
+                                @if (publication.Images.Count > 1)
+                                {
+                                    <div class="image-count">
+                                        <i class="fas fa-images"></i> @publication.Images.Count
+                                    </div>
+                                }
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="publication-image no-image">
+                                <i class="fas fa-image"></i>
+                                <span>No image</span>
+                            </div>
+                        }
+
+                        <div class="publication-info">
+                            <p class="summary">@publication.Summary</p>
+
+                            <div class="pet-details">
+                                <div class="pet-detail">
+                                    <span class="label">Name:</span>
+                                    <span class="value">@publication.PetName</span>
+                                </div>
+                                <div class="pet-detail">
+                                    <span class="label">Age:</span>
+                                    <span class="value">@publication.PetAge</span>
+                                </div>
+                                <div class="pet-detail">
+                                    <span class="label">Breed:</span>
+                                    <span class="value">@publication.Breed</span>
+                                </div>
+                            </div>
+
+                            <div class="pet-badges">
+                                <span class="pet-badge @(publication.IsAdopted ? "adopted" : "available")">
+                                    @(publication.IsAdopted ? "Adopted" : "Available")
+                                </span>
+                                @if (publication.IsVaccinated)
+                                {
+                                    <span class="pet-badge vaccinated">Vaccinated</span>
+                                }
+                                @if (publication.IsSterilized)
+                                {
+                                    <span class="pet-badge sterilized">Sterilized</span>
+                                }
+                            </div>
+
+                            <div class="location">
+                                <i class="fas fa-map-marker-alt"></i> @publication.Location
+                            </div>
+                        </div>
+                    </div>
+                    <div class="pets-buttons">
+                        <a asp-area="User" asp-controller="UserPublicationsManage" asp-action="Edit" asp-route-id="@publication.Id" class="listing-card-button edit-button">
+                            <i class="fas fa-edit"></i> Edit
+                        </a>
+                        <form method="post" asp-area="User" asp-controller="UserPublicationsManage" asp-action="Delete" asp-route-id="@publication.Id" onsubmit="return confirm('Are you sure you want to delete this publication?');">
+                            <button type="submit" class="listing-card-button delete-button">
+                                <i class="fas fa-trash-alt"></i> Delete
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="no-publications">
+                <i class="fas fa-folder-open"></i>
+                <p>No pet publications found.</p>
+                <p>Click "Create New Listing" to add your first pet.</p>
+            </div>
+        }
+    </div>
 </div>
 
-<div class="card-container">
-    @foreach (UserPetPublication publication in Model)
-    {
-        <div class="publication">
-            <div class="top-part">
-                <h2>@publication.PetType</h2>
-                <h1>@publication.PublicationTitle</h1>
-            </div>
-
-            <div class="middle-part">
-                <img src="@publication.Images[0].ImageUrl" />
-                <h3>@publication.Summary</h3>
-                <h3>Name: @publication.PetName; Age: @publication.PetAge; Type: @publication.PetType</h3>
-                <h3>IsAdopted: @publication.IsAdopted; IsVaccinated: @publication.IsVaccinated; IsSterialized: @publication.IsSterilized</h3>
-                <h3> Description: @publication.Description</h3>
-                <h3> Location: @publication.Location</h3>
-            </div>
-            <div class="pets-buttons">
-                <a asp-area="User" asp-controller="UserPublicationsManage" asp-action="Edit" asp-route-id="@publication.Id" class="listing-card-button">Edit</a>
-                <form method="post" asp-area="User" asp-controller="UserPublicationsManage" asp-action="Delete" asp-route-id="@publication.Id">
-                    <button type="submit" class="listing-card-button">Delete</button>
-                </form>
-            </div>
-        </div>
-    }
-</div>
+<script>
+    // Add animations for cards
+    document.addEventListener('DOMContentLoaded', function() {
+        const cards = document.querySelectorAll('.publication');
+        cards.forEach((card, index) => {
+            // Add a staggered animation delay
+            card.style.animationDelay = `${index * 0.1}s`;
+            card.classList.add('fade-in');
+        });
+    });
+</script>
