@@ -4,7 +4,7 @@ using CozyHouse.Core.Domain.Entities.BaseEntities;
 
 namespace CozyHouse.Core.Domain.Entities
 {
-    public class PetImage
+    public class PetImage : IEntity
     {
         [Key]
         public Guid Id { get; set; }

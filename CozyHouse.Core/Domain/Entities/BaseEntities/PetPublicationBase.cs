@@ -4,7 +4,7 @@ using CozyHouse.Core.Domain.Enums;
 
 namespace CozyHouse.Core.Domain.Entities.BaseEntities
 {
-    public abstract class PetPublicationBase
+    public abstract class PetPublicationBase : IEntity
     {
         [Key]
         public Guid Id { get; set; }
