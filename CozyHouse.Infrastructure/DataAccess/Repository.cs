@@ -1,5 +1,5 @@
 ﻿using CozyHouse.Core.DataAccess;
-using CozyHouse.Core.Domain.Entities.BaseEntities;
+using CozyHouse.Core.Domain.Entities.Interfaces;
 using CozyHouse.Infrastructure.Database;
 
 namespace CozyHouse.Infrastructure.DataAccess

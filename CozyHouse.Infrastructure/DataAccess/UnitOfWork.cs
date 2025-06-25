@@ -8,20 +8,18 @@ namespace CozyHouse.Infrastructure.DataAccess
     {
         private ApplicationDbContext _context;
 
-        public IRepository<ShelterPetPublication> ShelterPetPublications { get; }
-        public IRepository<UserPetPublication> UserPetPublications { get; }
-        public IRepository<ShelterAdoptionRequest> ShelterAdoptionRequests { get; }
-        public IRepository<UserAdoptionRequest> UserAdoptionRequests { get; }
-        public IRepository<PetImage> PetImages { get; }
+        public IRepository<Publication> Publications { get; }
+        public IRepository<Pet> Pets { get; }
+        public IRepository<AdoptionRequest> AdoptionRequests { get; }
+        public IRepository<Image> Images { get; }
 
         public UnitOfWork(ApplicationDbContext context)
         {
             _context = context;
-            ShelterPetPublications = new Repository<ShelterPetPublication>(context);
-            UserPetPublications = new Repository<UserPetPublication>(context);
-            ShelterAdoptionRequests = new Repository<ShelterAdoptionRequest>(context);
-            UserAdoptionRequests = new Repository<UserAdoptionRequest>(context);
-            PetImages = new Repository<PetImage>(context);
+            Publications = new Repository<Publication>(context);
+            Pets = new Repository<Pet>(context);
+            AdoptionRequests = new Repository<AdoptionRequest>(context);
+            Images = new Repository<Image>(context);
         }
 
         public void SaveChanges()

@@ -9,29 +9,24 @@ namespace CozyHouse.Core.DataAccess
     public interface IUnitOfWork : IDisposable
     {
         /// <summary>
-        /// Gets the repository for managing <see cref="ShelterPetPublication"/> entities.
+        /// Gets the repository for managing <see cref="Publication"/> entities.
         /// </summary>
-        IRepository<ShelterPetPublication> ShelterPetPublications { get; }
+        IRepository<Publication> Publications { get; }
 
         /// <summary>
-        /// Gets the repository for managing <see cref="UserPetPublication"/> entities.
+        /// Gets the repository for managing <see cref="Pet"/> entities.
         /// </summary>
-        IRepository<UserPetPublication> UserPetPublications { get; }
+        IRepository<Pet> Pets { get; }
 
         /// <summary>
-        /// Gets the repository for managing <see cref="ShelterAdoptionRequest"/> entities.
+        /// Gets the repository for managing <see cref="AdoptionRequest"/> entities.
         /// </summary>
-        IRepository<ShelterAdoptionRequest> ShelterAdoptionRequests { get; }
+        IRepository<AdoptionRequest> AdoptionRequests { get; }
 
         /// <summary>
-        /// Gets the repository for managing <see cref="UserAdoptionRequest"/> entities.
+        /// Gets the repository for managing <see cref="Image"/> entities.
         /// </summary>
-        IRepository<UserAdoptionRequest> UserAdoptionRequests { get; }
-
-        /// <summary>
-        /// Gets the repository for managing <see cref="PetImage"/> entities.
-        /// </summary>
-        IRepository<PetImage> PetImages { get; }
+        IRepository<Image> Images { get; }
 
         /// <summary>
         /// Commits all pending changes to the database in a single transaction.
